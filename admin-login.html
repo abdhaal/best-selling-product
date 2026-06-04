@@ -48,7 +48,7 @@ cursor:pointer;
 p{
 text-align:center;
 }
-</style></head><body><div class="login-box"><h2>Admin Login</h2><input type="email" id="email" placeholder="Admin Email"><input type="password" id="password" placeholder="Password"><button onclick="loginAdmin()">Login</button>
+</style></head><body><div class="login-box"><h2>Admin Login</h2><form action="admin-dashboard.html"><input type="email" id="email" placeholder="Admin Email"><input type="password" id="password" placeholder="Password"><button onclick="loginAdmin()">Login</button>
 
 <p>
 <a href="index.html">Back To Home</a>
@@ -87,16 +87,6 @@ firebase.auth().signInWithPopup(provider)
     alert(error.message);
 });
 
-<div class="login-box">
 
-<h2>Admin Login</h2>
-
-<form action="admin-dashboard.html">
-<input type="email" placeholder="Admin Email" required>
-<input type="password" placeholder="Password" required>
-
-<button type="submit">Login</button>
-</form>
-</div>
 </script></body>
 </html>
