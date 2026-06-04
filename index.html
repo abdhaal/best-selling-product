@@ -221,17 +221,40 @@ margin:10px 0;
 
 <header class="topbar">
 
-<div class="menu" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
-<div class="search-container">
-<input type="text" placeholder="Search Products">
-<button>🔍</button>
+<div id="sideMenu" class="side-menu">
+
+<div class="menu-header">
+<h2>Best Selling Product</h2>
+<p>Your Account</p>
 </div>
 
-<div class="cart">
-<a href="cart.html" style="color:white;text-decoration:none;">🛒</a>
-</div>
+<a href="index.html">🏠 Home</a>
 
+<div class="menu-title">Trending</div>
+<a href="all-products.html">🔥 Best Sellers</a>
+<a href="all-products.html">🆕 New Arrivals</a>
+
+<div class="menu-title">Top Categories</div>
+<a href="categories.html">📱 Electronics</a>
+<a href="categories.html">📞 Mobiles</a>
+<a href="categories.html">👕 Fashion</a>
+<a href="categories.html">🏠 Home & Kitchen</a>
+<a href="categories.html">💄 Beauty</a>
+<a href="categories.html">🎮 Gaming</a>
+
+<div class="menu-title">Account</div>
+<a href="wishlist.html">❤️ Wishlist</a>
+<a href="cart.html">🛒 Cart</a>
+<a href="orders.html">📦 Orders</a>
+
+<div class="menu-title">Login</div>
+<a href="customer-login.html">👤 Customer Login</a>
+<a href="seller-login.html">🏪 Seller Login</a>
+<a href="admin-login.html">⚙ Admin Login</a>
+
+</div>
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
