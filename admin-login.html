@@ -49,6 +49,61 @@ cursor:pointer;
 </style>
 
 </head>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
+  authDomain: "best-selling-product-6dbdd.firebaseapp.com",
+  projectId: "best-selling-product-6dbdd",
+  storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
+  messagingSenderId: "208441607475",
+  appId: "1:208441607475:web:d04616c3644308ca3baa46",
+  measurementId: "G-1EK3ZGKY5F"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.signupUser = function(){
+
+const email=document.getElementById("email").value;
+const password=document.getElementById("password").value;
+
+createUserWithEmailAndPassword(auth,email,password)
+
+.then((userCredential) => {
+
+if(email === "abdhaal0@gmail.com"){
+
+alert("Admin Login Successful!");
+
+window.location.href = "admin-dashboard.html";
+
+}else{
+
+alert("Access Denied! Admin Only");
+
+}
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+</script>
+  
 <body>
 
 <div class="login-box">
