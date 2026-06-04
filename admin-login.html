@@ -61,49 +61,32 @@ getAuth,
 signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
-  authDomain: "best-selling-product-6dbdd.firebaseapp.com",
-  projectId: "best-selling-product-6dbdd",
-  storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
-  messagingSenderId: "208441607475",
-  appId: "1:208441607475:web:d04616c3644308ca3baa46",
-  measurementId: "G-1EK3ZGKY5F"
-};
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.addScope('email');
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+firebase.auth().signInWithPopup(provider)
+.then((result) => {
+    const user = result.user;
 
-window.loginAdmin = function(){
+    if (!user || !user.email) {
+        alert("Email not found");
+        return;
+    }
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+    console.log("Login email:", user.email);
 
-signInWithEmailAndPassword(auth,email,password)
-
-.then((userCredential)=>{
-
-if(email === "abdhaal0@gmail.com"){
-
-alert("Admin Login Successful!");
-
-window.location.href = "admin-dashboard.html";
-
-}else{
-
-alert("Access Denied! Admin Only");
-
-}
-
+    if (user.email.trim().toLowerCase() === "abdhaal0@gmail.com") {
+        window.location.href = "admin-dashboard.html";
+    } else {
+        alert("Access denied!");
+        firebase.auth().signOut();
+    }
 })
-
-.catch((error)=>{
-
-alert(error.message);
-
+.catch((error) => {
+    console.log("Error:", error);
+    alert(error.message);
 });
 
-}
 
 </script></body>
 </html>
