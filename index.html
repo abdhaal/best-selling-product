@@ -14,13 +14,13 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#eaeded;
+background:#ffffff;
 }
 
 /* Header */
 
 .topbar{
-background:#131921;
+background:#001f3f;
 padding:10px;
 display:flex;
 align-items:center;
@@ -53,8 +53,10 @@ border-radius:6px 0 0 6px;
 .search-container button{
 width:55px;
 border:none;
-background:#febd69;
+background:#ffffff;
+color:#001f3f;
 font-size:20px;
+font-weight:bold;
 border-radius:0 6px 6px 0;
 cursor:pointer;
 }
@@ -63,7 +65,7 @@ cursor:pointer;
 
 .mobile-menu{
 display:none;
-background:#232f3e;
+background:#003366;
 padding:15px;
 }
 
@@ -78,31 +80,30 @@ border-bottom:1px solid rgba(255,255,255,.15);
 /* Banner */
 
 .banner{
-background:linear-gradient(135deg,#ff9900,#ffc266);
-padding:25px;
+background:linear-gradient(135deg,#001f3f,#004080);
+padding:30px;
 text-align:center;
+color:white;
 }
 
 .banner h2{
-font-size:28px;
-color:#111;
-margin-bottom:8px;
+font-size:30px;
+margin-bottom:10px;
 }
 
 .banner p{
 font-size:16px;
-font-weight:bold;
 }
 
 /* Sections */
 
 .section{
-padding:15px;
+padding:20px;
 }
 
 .section h2{
 margin-bottom:15px;
-color:#111;
+color:#001f3f;
 }
 
 /* Grid */
@@ -119,13 +120,14 @@ gap:12px;
 background:white;
 padding:15px;
 border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,.1);
+border:1px solid #dbe4f0;
+box-shadow:0 2px 5px rgba(0,0,0,.08);
 text-align:center;
 }
 
 .card a{
 text-decoration:none;
-color:#111;
+color:#001f3f;
 font-weight:bold;
 }
 
@@ -140,7 +142,7 @@ margin-bottom:10px;
 }
 
 .price{
-color:#B12704;
+color:#001f3f;
 font-size:20px;
 font-weight:bold;
 margin:8px 0;
@@ -148,8 +150,8 @@ margin:8px 0;
 
 .buy-btn{
 display:block;
-background:#ffd814;
-color:black;
+background:#001f3f;
+color:white;
 text-decoration:none;
 padding:10px;
 border-radius:20px;
@@ -159,7 +161,7 @@ font-weight:bold;
 
 .wishlist-btn{
 display:block;
-background:#007185;
+background:#003366;
 color:white;
 text-decoration:none;
 padding:10px;
@@ -168,7 +170,7 @@ margin-top:10px;
 font-weight:bold;
 }
 
-/* Login Buttons */
+/* Login */
 
 .login-box{
 text-align:center;
@@ -176,7 +178,7 @@ text-align:center;
 
 .login-box a{
 display:inline-block;
-background:#007185;
+background:#001f3f;
 color:white;
 padding:10px 15px;
 text-decoration:none;
@@ -187,7 +189,7 @@ margin:5px;
 /* Footer */
 
 footer{
-background:#232f3e;
+background:#001f3f;
 color:white;
 padding:25px;
 text-align:center;
@@ -230,7 +232,6 @@ margin:10px 0;
 <a href="wishlist.html">❤️ Wishlist</a>
 <a href="cart.html">🛒 Cart</a>
 <a href="orders.html">📦 Orders</a>
-
 <a href="customer-login.html">👤 Customer Login</a>
 <a href="seller-login.html">🏪 Seller Login</a>
 <a href="admin-login.html">⚙ Admin Login</a>
@@ -238,8 +239,8 @@ margin:10px 0;
 </div>
 
 <div class="banner">
-<h2>🔥 Today's Best Deals</h2>
-<p>Save Up To 65% OFF</p>
+<h2>Best Selling Product</h2>
+<p>Shop Smart • Save More • Discover Top Deals</p>
 </div>
 
 <section class="section">
@@ -248,37 +249,14 @@ margin:10px 0;
 
 <div class="grid">
 
-<div class="card">
-<a href="categories.html">📱 Electronics</a>
-</div>
-
-<div class="card">
-<a href="categories.html">📞 Mobiles</a>
-</div>
-
-<div class="card">
-<a href="categories.html">👕 Fashion</a>
-</div>
-
-<div class="card">
-<a href="categories.html">🏠 Home & Kitchen</a>
-</div>
-
-<div class="card">
-<a href="categories.html">💄 Beauty</a>
-</div>
-
-<div class="card">
-<a href="categories.html">🎮 Gaming</a>
-</div>
-
-<div class="card">
-<a href="categories.html">📚 Books</a>
-</div>
-
-<div class="card">
-<a href="categories.html">⌚ Accessories</a>
-</div>
+<div class="card"><a href="categories.html">📱 Electronics</a></div>
+<div class="card"><a href="categories.html">📞 Mobiles</a></div>
+<div class="card"><a href="categories.html">👕 Fashion</a></div>
+<div class="card"><a href="categories.html">🏠 Home & Kitchen</a></div>
+<div class="card"><a href="categories.html">💄 Beauty</a></div>
+<div class="card"><a href="categories.html">🎮 Gaming</a></div>
+<div class="card"><a href="categories.html">📚 Books</a></div>
+<div class="card"><a href="categories.html">⌚ Accessories</a></div>
 
 </div>
 
@@ -291,75 +269,35 @@ margin:10px 0;
 <div class="grid">
 
 <div class="card product">
-
 <img src="https://via.placeholder.com/300x200?text=Earbuds">
-
 <h3>Wireless Earbuds</h3>
-
 <p class="price">₹999</p>
-
-<a href="wishlist.html" class="wishlist-btn">
-Wishlist
-</a>
-
-<a href="product.html" class="buy-btn">
-Buy Now
-</a>
-
+<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
+<a href="product.html" class="buy-btn">Buy Now</a>
 </div>
 
 <div class="card product">
-
 <img src="https://via.placeholder.com/300x200?text=Smart+Watch">
-
 <h3>Smart Watch</h3>
-
 <p class="price">₹1499</p>
-
-<a href="wishlist.html" class="wishlist-btn">
-Wishlist
-</a>
-
-<a href="product.html" class="buy-btn">
-Buy Now
-</a>
-
+<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
+<a href="product.html" class="buy-btn">Buy Now</a>
 </div>
 
 <div class="card product">
-
 <img src="https://via.placeholder.com/300x200?text=Speaker">
-
 <h3>Bluetooth Speaker</h3>
-
 <p class="price">₹799</p>
-
-<a href="wishlist.html" class="wishlist-btn">
-Wishlist
-</a>
-
-<a href="product.html" class="buy-btn">
-Buy Now
-</a>
-
+<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
+<a href="product.html" class="buy-btn">Buy Now</a>
 </div>
 
 <div class="card product">
-
 <img src="https://via.placeholder.com/300x200?text=Power+Bank">
-
 <h3>Power Bank</h3>
-
 <p class="price">₹699</p>
-
-<a href="wishlist.html" class="wishlist-btn">
-Wishlist
-</a>
-
-<a href="product.html" class="buy-btn">
-Buy Now
-</a>
-
+<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
+<a href="product.html" class="buy-btn">Buy Now</a>
 </div>
 
 </div>
@@ -371,19 +309,9 @@ Buy Now
 <h2>Login</h2>
 
 <div class="login-box">
-
-<a href="customer-login.html">
-Customer Login
-</a>
-
-<a href="seller-login.html">
-Seller Login
-</a>
-
-<a href="admin-login.html">
-Admin Login
-</a>
-
+<a href="customer-login.html">Customer Login</a>
+<a href="seller-login.html">Seller Login</a>
+<a href="admin-login.html">Admin Login</a>
 </div>
 
 </section>
@@ -392,29 +320,18 @@ Admin Login
 
 <p><strong>Best Selling Product</strong></p>
 
-<p>
-Shop Smart • Save More • Discover Top Deals
-</p>
+<p>Shop Smart • Save More • Discover Top Deals</p>
 
 <p>
-
 <a href="about.html">About</a> |
-
 <a href="contact.html">Contact</a> |
-
 <a href="privacy-policy.html">Privacy Policy</a> |
-
 <a href="terms-andconditions.html">Terms</a> |
-
 <a href="affiliate-disclosure.html">Affiliate Disclosure</a> |
-
 <a href="faq.html">FAQ</a>
-
 </p>
 
-<p>
-© 2026 Best Selling Product
-</p>
+<p>© 2026 Best Selling Product</p>
 
 </footer>
 
