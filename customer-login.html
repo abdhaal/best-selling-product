@@ -57,6 +57,52 @@ color:#0a66ff;
 </style>
 
 </head>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
+  authDomain: "best-selling-product-6dbdd.firebaseapp.com",
+  projectId: "best-selling-product-6dbdd",
+  storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
+  messagingSenderId: "208441607475",
+  appId: "1:208441607475:web:d04616c3644308ca3baa46",
+  measurementId: "G-1EK3ZGKY5F"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.loginUser = function() {
+
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+signInWithEmailAndPassword(auth, email, password)
+
+.then((userCredential) => {
+
+alert("Login Successful!");
+
+window.location.href = "customer-dashboard.html";
+
+})
+
+.catch((error) => {
+
+alert(error.message);
+
+});
+
+}
+
+</script>
 <body>
 
 <div class="login-box">
