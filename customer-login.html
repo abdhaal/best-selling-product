@@ -22,7 +22,7 @@ font-weight:bold;
 }
 
 .login-container{
-max-width:420px;
+max-width:400px;
 margin:30px auto;
 background:white;
 padding:25px;
@@ -38,7 +38,7 @@ color:#001f3f;
 input{
 width:100%;
 padding:12px;
-margin:8px 0;
+margin:10px 0;
 border:1px solid #ccc;
 border-radius:6px;
 }
@@ -46,86 +46,53 @@ border-radius:6px;
 button{
 width:100%;
 padding:12px;
-margin-top:8px;
 background:#001f3f;
 color:white;
 border:none;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
+margin-top:10px;
 }
 
 button:hover{
 background:#003366;
 }
 
-hr{
-margin:20px 0;
-}
-
 #msg{
-color:red;
 text-align:center;
 margin-top:10px;
+color:red;
 font-size:14px;
-}
-
-.footer{
-margin-top:40px;
-background:#001f3f;
-color:white;
-text-align:center;
-padding:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">Customer Login</div>
+<div class="header">
+Customer Login
+</div>
 
 <div class="login-container">
 
-<h2>Login System</h2>
+<h2>Email Login</h2>
 
-<!-- EMAIL LOGIN -->
 <input type="email" id="email" placeholder="Enter Email">
 <input type="password" id="password" placeholder="Enter Password">
 
 <button onclick="signup()">Sign Up</button>
 <button onclick="login()">Login</button>
 
-<hr>
-
-<!-- OTP LOGIN -->
-<h3 style="text-align:center;color:#001f3f;">OR Mobile OTP Login</h3>
-
-<input type="text" id="phone" placeholder="Enter Mobile Number (10 digits)" maxlength="10">
-
-<button onclick="sendOTP()">Send OTP</button>
-
-<input type="text" id="otp" placeholder="Enter OTP">
-
-<button onclick="verifyOTP()">Verify OTP</button>
-
-<div id="recaptcha-container"></div>
-
 <p id="msg"></p>
 
 </div>
 
-<div class="footer">
-© 2026 Best Selling Product
-</div>
-
-<!-- Firebase SDK -->
-<script src="firebase-app-compat.js"></script>
-<script src="firebase-auth-compat.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <script>
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-</script>
 
 // 🔥 Firebase Config (YOUR PROJECT)
 const firebaseConfig = {
@@ -134,16 +101,14 @@ const firebaseConfig = {
   projectId: "best-selling-product-6dbdd",
   storageBucket: "best-selling-product-6dbdd.appspot.com",
   messagingSenderId: "208441607475",
-  appId: "1:208441607475:web:d04616c3644308ca3baa46",
-  measurementId: "G-1EK3ZGKY5F"
+  appId: "1:208441607475:web:d04616c3644308ca3baa46"
 };
 
 // INIT FIREBASE
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-/* ---------------- EMAIL LOGIN ---------------- */
-
+/* ---------------- SIGN UP ---------------- */
 function signup(){
 let email = document.getElementById("email").value;
 let password = document.getElementById("password").value;
@@ -151,13 +116,14 @@ let password = document.getElementById("password").value;
 auth.createUserWithEmailAndPassword(email, password)
 .then(()=>{
 document.getElementById("msg").style.color="green";
-document.getElementById("msg").innerText="Account Created!";
+document.getElementById("msg").innerText="Account Created Successfully!";
 })
 .catch(err=>{
 document.getElementById("msg").innerText=err.message;
 });
 }
 
+/* ---------------- LOGIN ---------------- */
 function login(){
 let email = document.getElementById("email").value;
 let password = document.getElementById("password").value;
@@ -168,53 +134,6 @@ window.location.href="index.html";
 })
 .catch(err=>{
 document.getElementById("msg").innerText=err.message;
-});
-}
-
-/* ---------------- OTP LOGIN ---------------- */
-
-let confirmationResult;
-
-// reCAPTCHA setup
-window.onload = function(){
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container',{
-'size':'normal'
-});
-recaptchaVerifier.render();
-};
-
-// SEND OTP
-function sendOTP(){
-let phone = document.getElementById("phone").value;
-
-if(phone.length !== 10){
-document.getElementById("msg").innerText="Enter valid 10 digit number";
-return;
-}
-
-let fullPhone = "+91" + phone;
-
-auth.signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
-.then(result=>{
-confirmationResult = result;
-document.getElementById("msg").style.color="green";
-document.getElementById("msg").innerText="OTP Sent!";
-})
-.catch(err=>{
-document.getElementById("msg").innerText=err.message;
-});
-}
-
-// VERIFY OTP
-function verifyOTP(){
-let code = document.getElementById("otp").value;
-
-confirmationResult.confirm(code)
-.then(()=>{
-window.location.href="index.html";
-})
-.catch(()=>{
-document.getElementById("msg").innerText="Invalid OTP";
 });
 }
 
