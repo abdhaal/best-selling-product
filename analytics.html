@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #f2f2f2;
+}
+
+/* Header */
+.header {
+  background: #0a2a43;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Container */
+.container {
+  padding: 15px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Card */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  margin: 0;
+  color: #0a2a43;
+}
+
+.card p {
+  font-size: 22px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Chart Box */
+.chart {
+  background: white;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Fake Bar Chart */
+.bar {
+  height: 20px;
+  background: #0a2a43;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+/* Labels */
+.label {
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Analytics Dashboard</div>
+
+<div class="container">
+
+  <!-- Stats -->
+  <div class="grid">
+    <div class="card">
+      <h3>Total Revenue</h3>
+      <p>₹2,50,000</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Orders</h3>
+      <p>1200</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Users</h3>
+      <p>150</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Sellers</h3>
+      <p>25</p>
+    </div>
+  </div>
+
+  <!-- Sales Chart -->
+  <div class="chart">
+    <h3>📊 Monthly Sales</h3>
+
+    <div class="label">Jan</div>
+    <div class="bar" style="width: 40%"></div>
+
+    <div class="label">Feb</div>
+    <div class="bar" style="width: 60%"></div>
+
+    <div class="label">Mar</div>
+    <div class="bar" style="width: 80%"></div>
+
+    <div class="label">Apr</div>
+    <div class="bar" style="width: 50%"></div>
+  </div>
+
+  <!-- Orders Chart -->
+  <div class="chart">
+    <h3>📦 Orders Overview</h3>
+
+    <div class="label">Pending</div>
+    <div class="bar" style="width: 70%; background: orange;"></div>
+
+    <div class="label">Delivered</div>
+    <div class="bar" style="width: 90%; background: green;"></div>
+  </div>
+
+</div>
+
+</body>
+</html>
