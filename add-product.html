@@ -113,11 +113,17 @@ Add Product
 <label>Description</label>
 <textarea placeholder="Enter Product Description"></textarea>
 
-<button class="submit-btn">
+<button class="submit-btn" onclick="addProduct()">
 Add Product
 </button>
-
 </div>
+
+<script>
+function addProduct(){
+alert("Product Added Successfully!");
+window.location.href="manage-products.html";
+}
+</script>
 
 </body>
 </html>
