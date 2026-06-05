@@ -30,10 +30,9 @@ top:0;
 z-index:1000;
 }
 
-.menu,
-.cart{
+.menu{
 color:white;
-font-size:28px;
+font-size:32px;
 cursor:pointer;
 }
 
@@ -47,18 +46,24 @@ flex:1;
 padding:12px;
 border:none;
 outline:none;
-border-radius:6px 0 0 6px;
+border-radius:8px 0 0 8px;
+font-size:16px;
 }
 
 .search-container button{
 width:55px;
 border:none;
-background:#ffffff;
+background:white;
 color:#001f3f;
 font-size:20px;
-font-weight:bold;
-border-radius:0 6px 6px 0;
+border-radius:0 8px 8px 0;
 cursor:pointer;
+}
+
+.cart a{
+color:white;
+text-decoration:none;
+font-size:32px;
 }
 
 /* Mobile Menu */
@@ -273,17 +278,9 @@ z-index:1500;
 <body>
 
 <header class="topbar">
-
 <div class="menu" onclick="toggleMenu()">☰</div>
 
-<div class="search-container">
-<input type="text" placeholder="Search Products">
-<button>🔍</button>
-</div>
-
-<div class="cart">
-<a href="cart.html">🛒</a>
-</div>
+<div id="sideMenu" class="side-menu">
 
 <div class="menu-header">
 <h2>Best Selling Product</h2>
@@ -315,6 +312,20 @@ z-index:1500;
 <a href="admin-login.html">⚙ Admin Login</a>
 
 </div>
+
+<header class="topbar">
+
+<div class="menu" onclick="toggleMenu()">☰</div>
+
+<div class="search-container">
+<input type="text" placeholder="Search Products">
+<button>🔍</button>
+</div>
+
+<div class="cart">
+<a href="cart.html" style="color:white;text-decoration:none;">🛒</a>
+</div>
+
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
