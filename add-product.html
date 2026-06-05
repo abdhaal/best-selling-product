@@ -1,128 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Product</title>
+  <title>Add Product</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      padding: 20px;
+    }
 
-body{
-background:#f5f7fa;
-}
+    .form-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
 
-.header{
-background:#001f3f;
-color:white;
-text-align:center;
-padding:20px;
-font-size:28px;
-font-weight:bold;
-}
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
 
-.container{
-max-width:500px;
-margin:20px auto;
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
-}
-
-h2{
-color:#001f3f;
-margin-bottom:20px;
-text-align:center;
-}
-
-label{
-display:block;
-margin-bottom:5px;
-font-weight:bold;
-color:#001f3f;
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:8px;
-margin-bottom:15px;
-}
-
-textarea{
-height:100px;
-resize:none;
-}
-
-.submit-btn{
-width:100%;
-background:#001f3f;
-color:white;
-padding:14px;
-border:none;
-border-radius:8px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.submit-btn:hover{
-background:#003366;
-}
-</style>
+    button {
+      padding: 10px;
+      background: #0a2a43;
+      color: white;
+      border: none;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="header">
-Add Product
-</div>
+<div class="form-box">
+  <h2>Add Product</h2>
 
-<div class="container">
+  <input type="text" id="name" placeholder="Product Name">
+  <input type="number" id="price" placeholder="Price">
 
-<h2>Product Details</h2>
+  <!-- 🔐 Affiliate link (Admin only) -->
+  <div id="affiliateBox" style="display:none;">
+    <input type="text" id="affiliate" placeholder="Affiliate Link">
+  </div>
 
-<label>Product Name</label>
-<input type="text" placeholder="Enter Product Name">
-
-<label>Category</label>
-<select>
-<option>Electronics</option>
-<option>Mobiles</option>
-<option>Fashion</option>
-<option>Home & Kitchen</option>
-<option>Beauty</option>
-<option>Gaming</option>
-</select>
-
-<label>Price</label>
-<input type="number" placeholder="Enter Price">
-
-<label>Product Image</label>
-<input type="file">
-
-<label>Description</label>
-<textarea placeholder="Enter Product Description"></textarea>
-
-<button class="submit-btn" onclick="addProduct()">
-Add Product
-</button>
+  <button onclick="addProduct()">Add Product</button>
 </div>
 
 <script>
-function addProduct(){
-alert("Product Added Successfully!");
-window.location.href="manage-products.html";
-}
+  // ✅ Show affiliate field only for admin
+  let role = localStorage.getItem("role");
+
+  if (role === "admin") {
+    document.getElementById("affiliateBox").style.display = "block";
+  }
+
+  function addProduct() {
+    let name = document.getElementById("name").value;
+    let price = document.getElementById("price").value;
+    let affiliate = document.getElementById("affiliate").value;
+
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    let productData = {
+      name,
+      price
+    };
+
+    // ✅ Only admin can save affiliate link
+    if (role === "admin") {
+      productData.affiliate = affiliate;
+    }
+
+    products.push(productData);
+
+    localStorage.setItem("products", JSON.stringify(products));
+
+    alert("Product Added Successfully");
+  }
 </script>
 
 </body>
