@@ -1,84 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Add Product</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      background: #f2f2f2;
-      padding: 20px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #f2f2f2;
+}
 
-    .form-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-    }
+/* Header */
+.header {
+  background: #0a2a43;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
+/* Form Box */
+.container {
+  padding: 20px;
+}
 
-    button {
-      padding: 10px;
-      background: #0a2a43;
-      color: white;
-      border: none;
-      width: 100%;
-    }
-  </style>
+.form-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+/* Inputs */
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  background: #0a2a43;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #12456b;
+}
+</style>
 </head>
 
 <body>
 
-<div class="form-box">
-  <h2>Add Product</h2>
+<div class="header">Add Product</div>
 
-  <input type="text" id="name" placeholder="Product Name">
-  <input type="number" id="price" placeholder="Price">
+<div class="container">
+  <div class="form-box">
 
-  <!-- 🔐 Affiliate link (Admin only) -->
-  <div id="affiliateBox" style="display:none;">
-    <input type="text" id="affiliate" placeholder="Affiliate Link">
+    <input type="text" id="name" placeholder="Product Name">
+    <input type="number" id="price" placeholder="Price">
+    <textarea id="desc" placeholder="Description"></textarea>
+
+    <!-- 🔐 Affiliate (Admin only) -->
+    <div id="affiliateBox" style="display:none;">
+      <input type="text" id="affiliate" placeholder="Affiliate Link">
+    </div>
+
+    <button onclick="addProduct()">➕ Add Product</button>
+
   </div>
-
-  <button onclick="addProduct()">Add Product</button>
 </div>
 
 <script>
-  // ✅ Show affiliate field only for admin
-  let role = localStorage.getItem("role");
+let role = localStorage.getItem("role");
 
+// 🔐 Show only for admin
+if (role === "admin") {
+  document.getElementById("affiliateBox").style.display = "block";
+}
+
+function addProduct() {
+  let name = document.getElementById("name").value;
+  let price = document.getElementById("price").value;
+  let desc = document.getElementById("desc").value;
+  let affiliate = document.getElementById("affiliate").value;
+
+  if (!name || !price) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+
+  let product = {
+    name,
+    price,
+    desc
+  };
+
+  // 👑 Only admin can add affiliate
   if (role === "admin") {
-    document.getElementById("affiliateBox").style.display = "block";
+    product.affiliate = affiliate;
   }
 
-  function addProduct() {
-    let name = document.getElementById("name").value;
-    let price = document.getElementById("price").value;
-    let affiliate = document.getElementById("affiliate").value;
+  products.push(product);
 
-    let products = JSON.parse(localStorage.getItem("products")) || [];
+  localStorage.setItem("products", JSON.stringify(products));
 
-    let productData = {
-      name,
-      price
-    };
+  alert("✅ Product Added Successfully");
 
-    // ✅ Only admin can save affiliate link
-    if (role === "admin") {
-      productData.affiliate = affiliate;
-    }
-
-    products.push(productData);
-
-    localStorage.setItem("products", JSON.stringify(products));
-
-    alert("Product Added Successfully");
-  }
+  // Clear form
+  document.getElementById("name").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("affiliate").value = "";
+}
 </script>
 
 </body>
