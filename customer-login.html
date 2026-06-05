@@ -6,14 +6,9 @@
 <title>Customer Login</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
+margin:0;
+font-family:Arial;
 background:#f5f7fa;
 }
 
@@ -22,59 +17,58 @@ background:#001f3f;
 color:white;
 text-align:center;
 padding:20px;
-font-size:28px;
+font-size:26px;
 font-weight:bold;
 }
 
 .login-container{
-max-width:400px;
+max-width:420px;
 margin:30px auto;
 background:white;
 padding:25px;
 border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 h2{
-margin-bottom:20px;
 color:#001f3f;
-}
-
-label{
-display:block;
-margin-bottom:8px;
-font-weight:bold;
+text-align:center;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:12px;
+margin:8px 0;
 border:1px solid #ccc;
 border-radius:6px;
-margin-bottom:15px;
-font-size:16px;
+font-size:15px;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:12px;
+margin-top:8px;
 background:#001f3f;
 color:white;
 border:none;
-border-radius:8px;
-font-size:18px;
-font-weight:bold;
+border-radius:6px;
+font-size:16px;
 cursor:pointer;
-margin-bottom:10px;
 }
 
 button:hover{
 background:#003366;
 }
 
+hr{
+margin:20px 0;
+}
+
 #msg{
 color:red;
 font-size:14px;
+text-align:center;
 margin-top:10px;
 }
 
@@ -85,46 +79,45 @@ color:white;
 text-align:center;
 padding:20px;
 }
-
-.footer a{
-color:white;
-text-decoration:none;
-margin:0 8px;
-}
 </style>
-
 </head>
 
 <body>
 
-<div class="header">
-Best Selling Product
-</div>
+<div class="header">Customer Login</div>
 
 <div class="login-container">
 
-<h2>Login / Create Account</h2>
+<h2>Login System</h2>
 
-<label>Email / Mobile Number</label>
+<!-- EMAIL LOGIN -->
 <input type="email" id="email" placeholder="Enter Email">
-
-<label>Password</label>
 <input type="password" id="password" placeholder="Enter Password">
 
 <button onclick="signup()">Sign Up</button>
 <button onclick="login()">Login</button>
+
+<hr>
+
+<!-- OTP LOGIN -->
+<h3 style="text-align:center;color:#001f3f;">OR Mobile OTP Login</h3>
+
+<input type="text" id="phone" placeholder="Enter Mobile Number (10 digits)" maxlength="10">
+
+<button onclick="sendOTP()">Send OTP</button>
+
+<input type="text" id="otp" placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">Verify OTP</button>
+
+<div id="recaptcha-container"></div>
 
 <p id="msg"></p>
 
 </div>
 
 <div class="footer">
-<p>
-<a href="#">Terms</a> |
-<a href="#">Privacy Policy</a> |
-<a href="#">Contact</a>
-</p>
-<p>© 2026 Best Selling Product</p>
+© 2026 Best Selling Product
 </div>
 
 <!-- Firebase -->
@@ -132,9 +125,10 @@ Best Selling Product
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <script>
-// 🔥 Your Firebase Config
+
+// 🔥 Firebase Config (YOUR PROJECT)
 const firebaseConfig = {
-  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
+  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLQ",
   authDomain: "best-selling-product-6dbdd.firebaseapp.com",
   projectId: "best-selling-product-6dbdd",
   storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
@@ -143,39 +137,85 @@ const firebaseConfig = {
   measurementId: "G-1EK3ZGKY5F"
 };
 
-// init firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-// SIGN UP
+/* ---------------- EMAIL LOGIN ---------------- */
+
 function signup(){
 let email = document.getElementById("email").value;
 let password = document.getElementById("password").value;
 
 auth.createUserWithEmailAndPassword(email, password)
-.then(user=>{
+.then(()=>{
 document.getElementById("msg").style.color="green";
-document.getElementById("msg").innerText="Account Created Successfully!";
+document.getElementById("msg").innerText="Account Created!";
 })
 .catch(err=>{
-document.getElementById("msg").style.color="red";
 document.getElementById("msg").innerText=err.message;
 });
 }
 
-// LOGIN
 function login(){
 let email = document.getElementById("email").value;
 let password = document.getElementById("password").value;
 
 auth.signInWithEmailAndPassword(email, password)
-.then(user=>{
+.then(()=>{
 window.location.href="index.html";
 })
 .catch(err=>{
 document.getElementById("msg").innerText=err.message;
 });
 }
+
+/* ---------------- OTP LOGIN ---------------- */
+
+let confirmationResult;
+
+// reCAPTCHA
+window.onload = function(){
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container',{
+'size':'normal'
+});
+recaptchaVerifier.render();
+};
+
+// SEND OTP
+function sendOTP(){
+let phone = document.getElementById("phone").value;
+
+if(phone.length !== 10){
+document.getElementById("msg").innerText="Enter valid 10 digit number";
+return;
+}
+
+let fullPhone = "+91" + phone;
+
+auth.signInWithPhoneNumber(fullPhone, window.recaptchaVerifier)
+.then(result=>{
+confirmationResult = result;
+document.getElementById("msg").style.color="green";
+document.getElementById("msg").innerText="OTP Sent!";
+})
+.catch(err=>{
+document.getElementById("msg").innerText=err.message;
+});
+}
+
+// VERIFY OTP
+function verifyOTP(){
+let code = document.getElementById("otp").value;
+
+confirmationResult.confirm(code)
+.then(()=>{
+window.location.href="index.html";
+})
+.catch(()=>{
+document.getElementById("msg").innerText="Invalid OTP";
+});
+}
+
 </script>
 
 </body>
