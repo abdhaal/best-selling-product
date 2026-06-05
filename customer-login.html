@@ -6,14 +6,9 @@
 <title>Customer Login</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
+margin:0;
+font-family:Arial;
 background:#f5f7fa;
 }
 
@@ -22,7 +17,7 @@ background:#001f3f;
 color:white;
 text-align:center;
 padding:20px;
-font-size:28px;
+font-size:26px;
 font-weight:bold;
 }
 
@@ -32,143 +27,111 @@ margin:30px auto;
 background:white;
 padding:25px;
 border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-.login-container h2{
-margin-bottom:20px;
-color:#001f3f;
-}
-
-.login-container label{
-display:block;
-margin-bottom:8px;
-font-weight:bold;
-}
-
-.login-container input{
+input{
 width:100%;
 padding:12px;
+margin:10px 0;
 border:1px solid #ccc;
 border-radius:6px;
-margin-bottom:20px;
-font-size:16px;
 }
 
-.login-btn{
+button{
 width:100%;
-padding:14px;
+padding:12px;
 background:#001f3f;
 color:white;
 border:none;
-border-radius:30px;
-font-size:18px;
-font-weight:bold;
+border-radius:6px;
 cursor:pointer;
+font-size:16px;
 }
 
-.login-btn:hover{
+button:hover{
 background:#003366;
-}
-.continue-btn{
-display:block;
-width:100%;
-background:#001f3f;
-color:white;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:8px;
-font-size:18px;
-font-weight:bold;
-margin-top:15px;
 }
 
-.continue-btn:hover{
-background:#003366;
-  }
-.seller-account{
-display:block;
-text-align:left;
-margin-top:15px;
-text-decoration:none;
-color:#001f3f;
-font-weight:bold;
-}
-.info{
-margin-top:20px;
+#msg{
+margin-top:10px;
+color:red;
 font-size:14px;
-line-height:1.6;
-}
-
-.info a{
-color:#001f3f;
-text-decoration:none;
-font-weight:bold;
-}
-
-.footer{
-margin-top:40px;
-background:#001f3f;
-color:white;
-text-align:center;
-padding:20px;
-}
-
-.footer a{
-color:white;
-text-decoration:none;
-margin:0 8px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-Best Selling Product
-</div>
+<div class="header">Customer Login</div>
 
 <div class="login-container">
 
-<h2>Sign in or Create Account</h2>
+<h2>Login / Sign Up</h2>
 
-<label>Enter Mobile Number or Email</label>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
 
-<input type="text" placeholder="Mobile Number or Email">
+<button onclick="signup()">Sign Up</button>
+<button onclick="login()">Login</button>
 
-<a href="otp.html" class="continue-btn">
-Continue
-</a>
-
-<div class="info">
-By continuing, you agree to our
-<a href="terms-andconditions.html">Terms & Conditions</a>
-and
-<a href="privacy-policy.html">Privacy Policy</a>.
-</div>
-
-<br>
-
-<h3>Sell your product?</h3>
-
-<a href="seller-login.html" class="seller-account">
-Create a Free Seller Account
-</a>
+<p id="msg"></p>
 
 </div>
 
-<div class="footer">
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-<p>
-<a href="terms-andconditions.html">Terms</a> |
-<a href="privacy-policy.html">Privacy Policy</a> |
-<a href="contact.html">Contact</a>
-</p>
+<script>
+// 🔥 Your Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
+  authDomain: "best-selling-product-6dbdd.firebaseapp.com",
+  projectId: "best-selling-product-6dbdd",
+  storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
+  messagingSenderId: "208441607475",
+  appId: "1:208441607475:web:d04616c3644308ca3baa46",
+  measurementId: "G-1EK3ZGKY5F"
+};
 
-<p>© 2026 Best Selling Product</p>
+// Init Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-</div>
+// SIGN UP
+function signup(){
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+auth.createUserWithEmailAndPassword(email, password)
+.then(user => {
+document.getElementById("msg").style.color="green";
+document.getElementById("msg").innerText = "Account Created Successfully!";
+})
+.catch(error => {
+document.getElementById("msg").style.color="red";
+document.getElementById("msg").innerText = error.message;
+});
+}
+
+// LOGIN
+function login(){
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(email, password)
+.then(user => {
+document.getElementById("msg").style.color="green";
+document.getElementById("msg").innerText = "Login Success!";
+window.location.href = "index.html";
+})
+.catch(error => {
+document.getElementById("msg").style.color="red";
+document.getElementById("msg").innerText = error.message;
+});
+}
+</script>
 
 </body>
 </html>
