@@ -31,9 +31,8 @@ box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 h2{
-color:#001f3f;
 text-align:center;
-margin-bottom:20px;
+color:#001f3f;
 }
 
 input{
@@ -42,7 +41,6 @@ padding:12px;
 margin:8px 0;
 border:1px solid #ccc;
 border-radius:6px;
-font-size:15px;
 }
 
 button{
@@ -67,9 +65,9 @@ margin:20px 0;
 
 #msg{
 color:red;
-font-size:14px;
 text-align:center;
 margin-top:10px;
+font-size:14px;
 }
 
 .footer{
@@ -120,7 +118,7 @@ padding:20px;
 © 2026 Best Selling Product
 </div>
 
-<!-- Firebase -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
@@ -137,6 +135,7 @@ const firebaseConfig = {
   measurementId: "G-1EK3ZGKY5F"
 };
 
+// INIT FIREBASE
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
@@ -173,7 +172,7 @@ document.getElementById("msg").innerText=err.message;
 
 let confirmationResult;
 
-// reCAPTCHA
+// reCAPTCHA setup
 window.onload = function(){
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container',{
 'size':'normal'
