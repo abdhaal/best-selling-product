@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller OTP Verification</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fa;
+}
+
+.header{
+background:#001f3f;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+max-width:400px;
+margin:40px auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+h2{
+color:#001f3f;
+margin-bottom:10px;
+}
+
+.otp-box{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:20px 0;
+}
+
+.otp{
+width:55px;
+height:55px;
+font-size:24px;
+text-align:center;
+border:2px solid #001f3f;
+border-radius:8px;
+}
+
+.verify-btn{
+width:100%;
+padding:14px;
+background:#001f3f;
+color:white;
+border:none;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+}
+
+.resend{
+display:block;
+text-align:center;
+margin-top:15px;
+color:#001f3f;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Seller OTP Verification
+</div>
+
+<div class="container">
+
+<h2>Enter OTP</h2>
+
+<div class="otp-box">
+<input type="text" maxlength="1" class="otp">
+<input type="text" maxlength="1" class="otp">
+<input type="text" maxlength="1" class="otp">
+<input type="text" maxlength="1" class="otp">
+</div>
+
+<button class="verify-btn" onclick="verifyOtp()">
+Verify OTP
+</button>
+
+<a href="seller-otp.html" class="resend">
+Resend OTP
+</a>
+
+</div>
+
+<script>
+const otpInputs=document.querySelectorAll(".otp");
+
+otpInputs.forEach((input,index)=>{
+
+input.addEventListener("input",function(){
+if(this.value.length===1 && index<otpInputs.length-1){
+otpInputs[index+1].focus();
+}
+});
+
+});
+
+function verifyOtp(){
+
+let otp="";
+
+otpInputs.forEach(input=>{
+otp+=input.value;
+});
+
+if(otp==="1234"){
+window.location.href="seller-dashboard.html";
+}else{
+alert("Invalid OTP");
+}
+
+}
+</script>
+
+</body>
+</html>
