@@ -119,10 +119,13 @@ padding:20px;
 </div>
 
 <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="firebase-app-compat.js"></script>
+<script src="firebase-auth-compat.js"></script>
 
 <script>
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+</script>
 
 // 🔥 Firebase Config (YOUR PROJECT)
 const firebaseConfig = {
@@ -131,7 +134,8 @@ const firebaseConfig = {
   projectId: "best-selling-product-6dbdd",
   storageBucket: "best-selling-product-6dbdd.appspot.com",
   messagingSenderId: "208441607475",
-  appId: "1:208441607475:web:d04616c3644308ca3baa46"
+  appId: "1:208441607475:web:d04616c3644308ca3baa46",
+  measurementId: "G-1EK3ZGKY5F"
 };
 
 // INIT FIREBASE
