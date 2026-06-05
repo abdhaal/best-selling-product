@@ -4,343 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Best Selling Product</title>
-
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#ffffff;
-}
-
-/* Header */
-
-.topbar{
-background:#001f3f;
-padding:10px;
-display:flex;
-align-items:center;
-gap:10px;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-.menu{
-color:white;
-font-size:32px;
-cursor:pointer;
-}
-
-.search-container{
-flex:1;
-display:flex;
-}
-
-.search-container input{
-flex:1;
-padding:12px;
-border:none;
-outline:none;
-border-radius:8px 0 0 8px;
-font-size:16px;
-}
-
-.search-container button{
-width:55px;
-border:none;
-background:white;
-color:#001f3f;
-font-size:20px;
-border-radius:0 8px 8px 0;
-cursor:pointer;
-}
-
-.cart a{
-color:white;
-text-decoration:none;
-font-size:32px;
-}
-
-/* Mobile Menu */
-
-.mobile-menu{
-display:none;
-background:#003366;
-padding:15px;
-}
-
-.mobile-menu a{
-display:block;
-color:white;
-text-decoration:none;
-padding:12px 0;
-border-bottom:1px solid rgba(255,255,255,.15);
-}
-
-/* Banner */
-
-.banner{
-background:linear-gradient(135deg,#001f3f,#004080);
-padding:30px;
-text-align:center;
-color:white;
-}
-
-.banner h2{
-font-size:30px;
-margin-bottom:10px;
-}
-
-.banner p{
-font-size:16px;
-}
-
-/* Sections */
-
-.section{
-padding:20px;
-}
-
-.section h2{
-margin-bottom:15px;
-color:#001f3f;
-}
-
-/* Grid */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-/* Cards */
-
-.card{
-background:white;
-padding:15px;
-border-radius:10px;
-border:1px solid #dbe4f0;
-box-shadow:0 2px 5px rgba(0,0,0,.08);
-text-align:center;
-}
-
-.card a{
-text-decoration:none;
-font-weight:bold;
-}
-
-/* Products */
-
-.product img{
-width:100%;
-height:140px;
-object-fit:cover;
-border-radius:8px;
-margin-bottom:10px;
-}
-
-.price{
-color:#001f3f;
-font-size:20px;
-font-weight:bold;
-margin:8px 0;
-}
-
-.buy-btn{
-display:block;
-background:#001f3f;
-color:#fff !important;
-text-decoration:none;
-padding:10px;
-border-radius:20px;
-margin-top:10px;
-font-weight:bold;
-text-align:center;
-}
-
-.wishlist-btn{
-display:block;
-background:#003366;
-color:#fff !important;
-text-decoration:none;
-padding:10px;
-border-radius:20px;
-margin-top:10px;
-font-weight:bold;
-text-align:center;
-}
-
-.buy-btn:hover,
-.buy-btn:visited,
-.buy-btn:active,
-.wishlist-btn:hover,
-.wishlist-btn:visited,
-.wishlist-btn:active{
-color:#fff !important;
-}
-
-/* Login */
-
-.login-box{
-text-align:center;
-}
-
-.login-box a{
-display:inline-block;
-background:#001f3f;
-color:white;
-padding:10px 15px;
-text-decoration:none;
-border-radius:6px;
-margin:5px;
-}
-
-/* Footer */
-
-footer{
-background:#001f3f;
-color:white;
-padding:25px;
-text-align:center;
-margin-top:20px;
-}
-
-footer a{
-color:white;
-text-decoration:none;
-}
-
-footer p{
-margin:10px 0;
-} 
-.side-menu{
-position:fixed;
-top:0;
-left:-320px;
-width:320px;
-height:100%;
-background:white;
-overflow-y:auto;
-transition:0.3s;
-z-index:2000;
-box-shadow:3px 0 15px rgba(0,0,0,.3);
-}
-
-.menu-header{
-background:#001f3f;
-color:white;
-padding:25px 20px;
-}
-
-.menu-header h2{
-margin-bottom:5px;
-font-size:28px;
-}
-
-.menu-title{
-padding:15px 20px;
-font-weight:bold;
-font-size:22px;
-border-top:4px solid #e5e5e5;
-}
-
-.side-menu a{
-display:block;
-padding:15px 20px;
-text-decoration:none;
-color:#222;
-font-size:18px;
-}
-
-.side-menu a:hover{
-background:#f2f2f2;
-}
-
-.overlay{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.5);
-z-index:1500;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f5f5f5}
+.topbar{background:#001f3f;padding:10px;display:flex;align-items:center;gap:10px;position:sticky;top:0}
+.menu,.cart a{color:#fff;font-size:28px;text-decoration:none}
+.search-container{flex:1;display:flex}
+.search-container input{flex:1;padding:12px;border:none;border-radius:8px 0 0 8px}
+.search-container button{width:55px;border:none;background:#fff;border-radius:0 8px 8px 0}
+.banner{background:linear-gradient(135deg,#001f3f,#003f7f);color:#fff;text-align:center;padding:30px}
+.section{padding:20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.1);text-align:center}
+.price{font-weight:bold;color:#001f3f;margin:8px 0}
+.wishlist-btn,.buy-btn{display:block;text-decoration:none;color:#fff;padding:10px;border-radius:20px;margin-top:8px}
+.wishlist-btn{background:#003366}
+.buy-btn{background:#001f3f}
+.product img{width:100%;border-radius:8px}
+.side-menu{position:fixed;top:0;left:-320px;width:320px;height:100%;background:#fff;overflow:auto;transition:.3s;z-index:2000}
+.menu-header{background:#001f3f;color:#fff;padding:20px}
+.menu-title{padding:15px;font-weight:bold;background:#f0f0f0}
+.side-menu a{display:block;padding:12px 15px;color:#222;text-decoration:none}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1500}
+footer{background:#001f3f;color:#fff;text-align:center;padding:20px;margin-top:20px}
 </style>
 </head>
-
 <body>
 
-<header class="topbar">
-<div class="menu" onclick="toggleMenu()">☰</div>
+<div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
 <div id="sideMenu" class="side-menu">
-
-<div class="menu-header">
-<h2>Best Selling Product</h2>
-<p>Your Account</p>
-</div>
-
-<a href="index.html">🏠 Home</a>
-
+<div class="menu-header"><h2>Best Selling Product</h2><p>Your Account</p></div>
+<a href="#">🏠 Home</a>
 <div class="menu-title">Trending</div>
-<a href="all-products.html">🔥 Best Sellers</a>
-<a href="all-products.html">🆕 New Arrivals</a>
-
+<a href="#">🔥 Best Sellers</a>
+<a href="#">🆕 New Arrivals</a>
 <div class="menu-title">Top Categories</div>
-<a href="categories.html">📱 Electronics</a>
-<a href="categories.html">📞 Mobiles</a>
-<a href="categories.html">👕 Fashion</a>
-<a href="categories.html">🏠 Home & Kitchen</a>
-<a href="categories.html">💄 Beauty</a>
-<a href="categories.html">🎮 Gaming</a>
-
+<a href="#">📱 Electronics</a>
+<a href="#">👕 Fashion</a>
+<a href="#">🏠 Home & Kitchen</a>
 <div class="menu-title">Account</div>
-<a href="wishlist.html">❤️ Wishlist</a>
-<a href="cart.html">🛒 Cart</a>
-<a href="orders.html">📦 Orders</a>
-
-<div class="menu-title">Login</div>
-<a href="customer-login.html">👤 Customer Login</a>
-<a href="seller-login.html">🏪 Seller Login</a>
-<a href="admin-login.html">⚙ Admin Login</a>
-
+<a href="#">❤️ Wishlist</a>
+<a href="#">🛒 Cart</a>
 </div>
 
 <header class="topbar">
-
 <div class="menu" onclick="toggleMenu()">☰</div>
-
 <div class="search-container">
 <input type="text" placeholder="Search Products">
 <button>🔍</button>
 </div>
-
-<div class="cart">
-<a href="cart.html" style="color:white;text-decoration:none;">🛒</a>
-</div>
-
+<div class="cart"><a href="#">🛒</a></div>
 </header>
-
-<div class="mobile-menu" id="mobileMenu">
-
-<a href="index.html">🏠 Home</a>
-<a href="all-products.html">🛍 Products</a>
-<a href="categories.html">📂 Categories</a>
-<a href="wishlist.html">❤️ Wishlist</a>
-<a href="cart.html">🛒 Cart</a>
-<a href="orders.html">📦 Orders</a>
-<a href="customer-login.html">👤 Customer Login</a>
-<a href="seller-login.html">🏪 Seller Login</a>
-<a href="admin-login.html">⚙ Admin Login</a>
-
-</div>
 
 <div class="banner">
 <h2>Best Selling Product</h2>
@@ -348,108 +63,36 @@ z-index:1500;
 </div>
 
 <section class="section">
-
-<h2>Shop By Category</h2>
-
-<div class="grid">
-
-<div class="card"><a href="categories.html">📱 Electronics</a></div>
-<div class="card"><a href="categories.html">📞 Mobiles</a></div>
-<div class="card"><a href="categories.html">👕 Fashion</a></div>
-<div class="card"><a href="categories.html">🏠 Home & Kitchen</a></div>
-<div class="card"><a href="categories.html">💄 Beauty</a></div>
-<div class="card"><a href="categories.html">🎮 Gaming</a></div>
-<div class="card"><a href="categories.html">📚 Books</a></div>
-<div class="card"><a href="categories.html">⌚ Accessories</a></div>
-
-</div>
-
-</section>
-
-<section class="section">
-
 <h2>Featured Products</h2>
-
 <div class="grid">
-
 <div class="card product">
 <img src="https://via.placeholder.com/300x200?text=Earbuds">
 <h3>Wireless Earbuds</h3>
 <p class="price">₹999</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
+<a class="wishlist-btn" href="#">Wishlist</a>
+<a class="buy-btn" href="#">Buy Now</a>
 </div>
-
 <div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Smart+Watch">
+<img src="https://via.placeholder.com/300x200?text=Watch">
 <h3>Smart Watch</h3>
 <p class="price">₹1499</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
+<a class="wishlist-btn" href="#">Wishlist</a>
+<a class="buy-btn" href="#">Buy Now</a>
 </div>
-
-<div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Speaker">
-<h3>Bluetooth Speaker</h3>
-<p class="price">₹799</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
 </div>
-
-<div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Power+Bank">
-<h3>Power Bank</h3>
-<p class="price">₹699</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
-</div>
-
-</div>
-
 </section>
 
-<section class="section">
-
-<h2>Login</h2>
-
-<div class="login-box">
-<a href="customer-login.html">Customer Login</a>
-<a href="seller-login.html">Seller Login</a>
-<a href="admin-login.html">Admin Login</a>
-</div>
-
-</section>
-
-<footer>
-
-<p><strong>Best Selling Product</strong></p>
-
-<p>Shop Smart • Save More • Discover Top Deals</p>
-
-<p>
-<a href="about.html">About</a> |
-<a href="contact.html">Contact</a> |
-<a href="privacy-policy.html">Privacy Policy</a> |
-<a href="terms-andconditions.html">Terms</a> |
-<a href="affiliate-disclosure.html">Affiliate Disclosure</a> |
-<a href="faq.html">FAQ</a>
-</p>
-
-<p>© 2026 Best Selling Product</p>
-
-</footer>
+<footer>© 2026 Best Selling Product</footer>
 
 <script>
 function toggleMenu(){
-document.getElementById("sideMenu").style.left="0";
-document.getElementById("overlay").style.display="block";
+document.getElementById('sideMenu').style.left='0';
+document.getElementById('overlay').style.display='block';
 }
-
 function closeMenu(){
-document.getElementById("sideMenu").style.left="-320px";
-document.getElementById("overlay").style.display="none";
-  }
+document.getElementById('sideMenu').style.left='-320px';
+document.getElementById('overlay').style.display='none';
+}
 </script>
-
 </body>
 </html>
