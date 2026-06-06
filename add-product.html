@@ -120,7 +120,23 @@ Add Product
 
 
 
-<button class="submit-btn" onclick="addProduct()">
+<button class="submit-btn" onclick="function addProduct() {
+    alert("Button Clicked");
+
+    let productName = document.getElementById("productname").value;
+    let productPrice = document.getElementById("price").value;
+
+    db.collection("products").add({
+        name: productName,
+        price: productPrice
+    })
+    .then(() => {
+        alert("Product Added Successfully");
+    })
+    .catch((error) => {
+        alert(error.message);
+    });
+}
 Add Product
 </button>
 
