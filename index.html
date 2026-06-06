@@ -142,7 +142,43 @@ padding:20px;
 margin-bottom:15px;
 color:#001f3f;
 }
+.category-scroll{
+display:flex;
+overflow-x:auto;
+gap:20px;
+padding:10px 15px;
+background:#fff;
+scrollbar-width:none;
+white-space:nowrap;
+}
 
+.category-scroll::-webkit-scrollbar{
+display:none;
+}
+
+.category-item{
+flex:0 0 auto;
+width:80px;
+text-align:center;
+}
+
+.category-item img{
+width:60px;
+height:60px;
+object-fit:contain;
+border-radius:50%;
+}
+
+.category-item p{
+margin-top:5px;
+font-size:14px;
+font-weight:500;
+color:#000;
+}
+
+.category-item a{
+text-decoration:none;
+}
 /* Grid */
 
 .grid{
@@ -311,64 +347,51 @@ margin:10px 0;
 
 <section class="section">
 
-<div class="category-scroll id="products"
+<div class="category-scroll">
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/1041/1041886.png">
 <p>Electronics</p>
 </a>
 </div>
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png">
 <p>Mobiles</p>
 </a>
 </div>
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/892/892458.png">
 <p>Fashion</p>
 </a>
 </div>
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/2933/2933827.png">
 <p>Home</p>
 </a>
 </div>
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/3163/3163203.png">
 <p>Beauty</p>
 </a>
 </div>
 
 <div class="category-item">
-<a href="categories.html">
+<a href="#">
 <img src="https://cdn-icons-png.flaticon.com/512/686/686589.png">
 <p>Gaming</p>
 </a>
 </div>
 
-<div class="category-item">
-<a href="categories.html">
-<img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png">
-<p>Books</p>
-</a>
 </div>
-
-<div class="category-item">
-<a href="categories.html">
-<img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png">
-<p>Accessories</p>
-</a>
-</div>
-
 </div>
 
   </section>
