@@ -97,7 +97,7 @@ Add Product
 <h2>Product Details</h2>
 
 <label>Product Name</label>
-<input type="text" placeholder="Enter Product Name">
+<input type="text" id="productname" placeholder="Enter Product Name">
 
 <label>Category</label>
 <select>
@@ -110,17 +110,17 @@ Add Product
 </select>
 
 <label>Price</label>
-<input type="number" placeholder="Enter Price">
+<input type="number" id="price" placeholder="Enter Price">
 
 <label>Product Image</label>
-<input type="file">
+<input type="file" id="image">
 
 <label>Description</label>
 <textarea placeholder="Enter Product Description"></textarea>
 
 
 
-<button class="submit-btn">
+<button class="submit-btn" onclick="addProduct()">
 Add Product
 </button>
 
@@ -136,6 +136,42 @@ if(userRole === "admin"){
     document.getElementById("affiliateBox").classList.remove("hidden");
 }
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+function addProduct(){
+
+let productName = document.getElementById("productName").value;
+let productPrice = document.getElementById("price").value;
+
+db.collection("products").add({
+  name: productName,
+  price: productPrice
+})
+.then(() => {
+  alert("Product Added Successfully");
+})
+.catch((error) => {
+  alert(error.message);
+});
+
+}
+
+</script>
 </body>
 </html>
