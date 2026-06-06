@@ -6,87 +6,184 @@
 <title>Customer Login</title>
 
 <style>
-body{
+*{
 margin:0;
-font-family:Arial;
-background:#f5f7fa;
+padding:0;
+box-sizing:border-box;
+font-family: Georgia, serif;
+}
+
+body{
+background:#f2f4f8;
 }
 
 .header{
-background:#001f3f;
+background:#002855;
 color:white;
 text-align:center;
-padding:20px;
-font-size:26px;
+padding:25px;
+font-size:22px;
 font-weight:bold;
+font-style:italic;
 }
 
-.container{
-max-width:400px;
+.login-box{
+max-width:420px;
 margin:40px auto;
 background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+padding:30px;
+border-radius:20px;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
 }
 
-h2{
+.login-box h2{
 text-align:center;
-color:#001f3f;
+color:#002855;
+font-size:24px;
+margin-bottom:25px;
+font-style:italic;
 }
 
 input{
 width:100%;
-padding:12px;
-margin:10px 0;
+padding:16px;
+margin-bottom:15px;
 border:1px solid #ccc;
-border-radius:6px;
-font-size:15px;
-}
-
-button{
-width:100%;
-padding:12px;
-background:#001f3f;
-color:white;
-border:none;
-border-radius:6px;
+border-radius:10px;
 font-size:16px;
-cursor:pointer;
-margin-top:8px;
+font-style:italic;
 }
 
-button:hover{
-background:#003366;
+.login-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:40px;
+background:#002855;
+color:white;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+.login-btn:hover{
+background:#003b7a;
+}
+
+.signup-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:40px;
+background:#0d6efd;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+}
+
+.signup-btn:hover{
+background:#0b5ed7;
+}
+
+.info{
+margin-top:20px;
+font-size:15px;
+color:#333;
+line-height:1.6;
+}
+
+.info a{
+color:#002855;
+font-weight:bold;
+text-decoration:none;
+}
+
+.new-user{
+margin-top:25px;
+}
+
+.new-user h3{
+color:#000;
+font-size:18px;
+margin-bottom:10px;
+}
+
+.new-user a{
+color:#002855;
+font-weight:bold;
+font-size:18px;
+text-decoration:none;
 }
 
 #msg{
+margin-top:15px;
 text-align:center;
-margin-top:10px;
-color:red;
 font-size:14px;
+font-weight:bold;
+}
+
+.footer{
+background:#002855;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
+font-style:italic;
+}
+
+.footer a{
+color:white;
+text-decoration:none;
+margin:0 10px;
 }
 </style>
 </head>
-
 <body>
 
 <div class="header">
-Customer Login
+Best Selling Product
 </div>
 
-<div class="container">
+<div class="login-box">
 
-<h2>Email Login</h2>
+<h2>Customer Login</h2>
 
-<input type="email" id="email" placeholder="Enter Email">
-<input type="password" id="password" placeholder="Enter Password">
+<input type="email" id="email" placeholder="Customer Email">
+<input type="password" id="password" placeholder="Password">
 
-<button onclick="signup()">Sign Up</button>
-<button onclick="login()">Login</button>
+<button class="login-btn" onclick="login()">
+Continue
+</button>
+
+<button class="signup-btn" onclick="signup()">
+Create Customer Account
+</button>
+
+<div class="info">
+By continuing, you agree to our
+<a href="#">Terms & Conditions</a>
+and
+<a href="#">Privacy Policy</a>.
+</div>
+
+<div class="new-user">
+<h3>New Customer?</h3>
+<a href="#">Create Customer Account</a>
+</div>
 
 <p id="msg"></p>
 
+</div>
+
+<div class="footer">
+<a href="#">Terms</a> |
+<a href="#">Privacy Policy</a> |
+<a href="#">Contact</a>
+<br><br>
+© 2026 Best Selling Product
 </div>
 
 <!-- Firebase -->
@@ -95,7 +192,7 @@ Customer Login
 
 <script>
 
-// 🔥 FIREBASE CONFIG (FIXED)
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAfqFJvkFzaBwEkYd9TS2BE-LlybDoIWyA",
   authDomain: "best-selling-product-1.firebaseapp.com",
@@ -105,37 +202,50 @@ const firebaseConfig = {
   appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
 };
 
-// INIT FIREBASE
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-/* ---------------- SIGN UP ---------------- */
+// SIGNUP
 function signup(){
-let email = document.getElementById("email").value;
-let password = document.getElementById("password").value;
 
-auth.createUserWithEmailAndPassword(email, password)
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+
+auth.createUserWithEmailAndPassword(email,password)
 .then(()=>{
+
 document.getElementById("msg").style.color="green";
-document.getElementById("msg").innerText="Account Created Successfully!";
+document.getElementById("msg").innerText="Account Created Successfully";
+
 })
-.catch(err=>{
+.catch((err)=>{
+
+document.getElementById("msg").style.color="red";
 document.getElementById("msg").innerText=err.message;
+
 });
+
 }
 
-/* ---------------- LOGIN ---------------- */
+// LOGIN
 function login(){
-let email = document.getElementById("email").value;
-let password = document.getElementById("password").value;
 
-auth.signInWithEmailAndPassword(email, password)
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(email,password)
 .then(()=>{
+
 window.location.href="index.html";
+
 })
-.catch(err=>{
+.catch((err)=>{
+
+document.getElementById("msg").style.color="red";
 document.getElementById("msg").innerText=err.message;
+
 });
+
 }
 
 </script>
