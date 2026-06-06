@@ -400,38 +400,11 @@ margin:10px 0;
 
 <h2>Featured Products</h2>
 
-<div class="grid">
-
-<div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Earbuds">
-<h3>Wireless Earbuds</h3>
-<p class="price">₹999</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
+<div class="grid" id="productGrid">
 </div>
 
 <div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Smart+Watch">
-<h3>Smart Watch</h3>
-<p class="price">₹1499</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
-</div>
-
-<div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Speaker">
-<h3>Bluetooth Speaker</h3>
-<p class="price">₹799</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
-</div>
-
-<div class="card product">
-<img src="https://via.placeholder.com/300x200?text=Power+Bank">
-<h3>Power Bank</h3>
-<p class="price">₹699</p>
-<a href="wishlist.html" class="wishlist-btn">Wishlist</a>
-<a href="product.html" class="buy-btn">Buy Now</a>
+...
 </div>
 
 </div>
@@ -502,17 +475,34 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const db.collection("products").get()
-  .then((snapshot) => {
-    snapshot.forEach((doc) => {
-      console.log(doc.data());
-    });
+</script>
+<script>
+const db = firebase.firestore();
+
+db.collection("products").get()
+.then((snapshot) => {
+
+  const productGrid = document.getElementById("productGrid");
+
+  snapshot.forEach((doc) => {
+
+    const product = doc.data();
+
+    productGrid.innerHTML += `
+      <div class="card product">
+        <h3>${product.name}</h3>
+        <p class="price">₹${product.price}</p>
+        <a href="#" class="wishlist-btn">Wishlist</a>
+        <a href="#" class="buy-btn">Buy Now</a>
+      </div>
+    `;
+
   });
 
-function addProduct(){
-  // code here
-}
+})
+.catch((error) => {
+  console.log(error);
+});
 </script>
-
 </body>
 </html>
