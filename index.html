@@ -502,7 +502,12 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+const db.collection("products").get()
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
+      console.log(doc.data());
+    });
+  });
 
 function addProduct(){
   // code here
