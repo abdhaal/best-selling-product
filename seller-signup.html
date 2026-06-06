@@ -1,111 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seller Signup</title>
+<title>Create Seller Account</title>
 
 <style>
-body{
-font-family:Arial,sans-serif;
-background:#f5f7ff;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Georgia, serif;
 }
 
-.signup-box{
+body{
+background:#f2f4f8;
+}
+
+.header{
+background:#002855;
+color:white;
+text-align:center;
+padding:25px;
+font-size:22px;
+font-weight:bold;
+font-style:italic;
+}
+
+.container{
+max-width:420px;
+margin:40px auto;
 background:white;
 padding:30px;
-width:350px;
-border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+border-radius:20px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
 h2{
 text-align:center;
-color:#0a66ff;
+color:#002855;
+font-size:24px;
+font-style:italic;
+margin-bottom:25px;
 }
 
 input{
 width:100%;
-padding:12px;
-margin:10px 0;
+padding:15px;
+margin-bottom:15px;
 border:1px solid #ddd;
-border-radius:6px;
+border-radius:10px;
+font-size:16px;
 }
 
 button{
 width:100%;
-padding:12px;
-background:#ff6b00;
+padding:16px;
+background:#002855;
 color:white;
 border:none;
-border-radius:6px;
+border-radius:40px;
+font-size:20px;
+font-weight:bold;
 cursor:pointer;
+}
+
+button:hover{
+background:#003366;
+}
+
+.login-link{
+margin-top:25px;
+text-align:center;
+}
+
+.login-link a{
+color:#002855;
+font-size:18px;
+font-weight:bold;
+text-decoration:none;
+}
+
+#msg{
+margin-top:15px;
+text-align:center;
+font-weight:bold;
+}
+
+.footer{
+background:#002855;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
+}
+
+.footer a{
+color:white;
+text-decoration:none;
+margin:0 8px;
 }
 </style>
 </head>
 <body>
 
-<div class="signup-box">
+<div class="header">
+Best Selling Product
+</div>
 
-<h2>Create Account</h2>
+<div class="container">
 
-<input type="email" id="email" placeholder="Email">
+<h2>Create Seller Account</h2>
+
+<input type="text" id="name" placeholder="Seller Name">
+
+<input type="email" id="email" placeholder="Seller Email">
 
 <input type="password" id="password" placeholder="Password">
 
-<button onclick="signupUser()">Register</button>
+<input type="password" id="confirmPassword" placeholder="Confirm Password">
+
+<button onclick="signup()">
+Create Account
+</button>
+
+<p id="msg"></p>
+
+<div class="login-link">
+Already have a seller account?
+<br><br>
+<a href="seller-login.html">Login Here</a>
+</div>
 
 </div>
 
-<script type="module">
+<div class="footer">
+<a href="#">Terms</a> |
+<a href="#">Privacy Policy</a> |
+<a href="#">Contact</a>
+<br><br>
+© 2026 Best Selling Product
+</div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
-import {
-getAuth,
-createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+<script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCy2jyuQ_DQuMctYvnDQQG6OH_-wtMnLqI",
-  authDomain: "best-selling-product-6dbdd.firebaseapp.com",
-  projectId: "best-selling-product-6dbdd",
-  storageBucket: "best-selling-product-6dbdd.firebasestorage.app",
-  messagingSenderId: "208441607475",
-  appId: "1:208441607475:web:d04616c3644308ca3baa46",
-  measurementId: "G-1EK3ZGKY5F"
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+firebase.initializeApp(firebaseConfig);
 
-window.signupUser = function(){
+function signup(){
 
-const email=document.getElementById("email").value;
-const password=document.getElementById("password").value;
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+let confirmPassword=document.getElementById("confirmPassword").value;
 
-createUserWithEmailAndPassword(auth,email,password)
+if(password !== confirmPassword){
+document.getElementById("msg").style.color="red";
+document.getElementById("msg").innerText="Passwords do not match";
+return;
+}
 
-.then((userCredential) => {
+firebase.auth()
+.createUserWithEmailAndPassword(email,password)
+.then(()=>{
 
-alert("Seller Login Successful!");
+document.getElementById("msg").style.color="green";
+document.getElementById("msg").innerText="Seller Account Created Successfully";
 
-window.location.href = "seller-dashboard.html";
+setTimeout(()=>{
+window.location.href="seller-login.html";
+},1500);
 
 })
-
 .catch((error)=>{
 
-alert(error.message);
+document.getElementById("msg").style.color="red";
+document.getElementById("msg").innerText=error.message;
 
 });
 
 }
-
 </script>
 
 </body>
