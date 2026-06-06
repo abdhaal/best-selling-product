@@ -120,7 +120,12 @@ Add Product
 
 
 
-<button class="submit-btn" onclick="function addProduct() {
+<button class="submit-btn" onclick="addProduct()">
+    Add Product
+</button>
+
+<script>
+function addProduct() {
     alert("Button Clicked");
 
     let productName = document.getElementById("productname").value;
@@ -137,8 +142,7 @@ Add Product
         alert(error.message);
     });
 }
-Add Product
-</button>
+</script>
 
 </div>
 
