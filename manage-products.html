@@ -75,34 +75,76 @@ background:#c62828;
 Manage Products
 </div>
 
-<div class="section">
-
-
-<div class="product-card">
-<h3>Wireless Earbuds</h3>
-<p>₹999</p>
-
-<a href="#" class="btn edit-btn">✏ Edit</a>
-<a href="#" class="btn delete-btn">🗑 Delete</a>
-</div>
-
-<div class="product-card">
-<h3>Smart Watch</h3>
-<p>₹1499</p>
-
-<a href="#" class="btn edit-btn">✏ Edit</a>
-<a href="#" class="btn delete-btn">🗑 Delete</a>
-</div>
-
-<div class="product-card">
-<h3>Bluetooth Speaker</h3>
-<p>₹799</p>
-
-<a href="#" class="btn edit-btn">✏ Edit</a>
-<a href="#" class="btn delete-btn">🗑 Delete</a>
+<div class="section" id="productsContainer">
 </div>
 
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+const container = document.getElementById("productsContainer");
+
+function loadProducts() {
+  container.innerHTML = "";
+
+  db.collection("products").get()
+  .then((snapshot) => {
+
+    snapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      container.innerHTML += `
+        <div class="product-card">
+          <h3>${product.name}</h3>
+          <p>₹${product.price}</p>
+
+          <a href="edit-product.html?id=${doc.id}" class="btn edit-btn">
+            ✏ Edit
+          </a>
+
+          <a href="#" class="btn delete-btn"
+             onclick="deleteProduct('${doc.id}')">
+             🗑 Delete
+          </a>
+        </div>
+      `;
+
+    });
+
+  });
+}
+
+function deleteProduct(id) {
+
+  if(confirm("Delete this product?")) {
+
+    db.collection("products").doc(id).delete()
+    .then(() => {
+      alert("Product Deleted");
+      loadProducts();
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+
+  }
+}
+
+loadProducts();
+</script>
 </body>
 </html>
