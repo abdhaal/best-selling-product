@@ -128,6 +128,9 @@ Edit Product
 
 
 
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
 <script>
 
 const firebaseConfig = {
@@ -143,10 +146,9 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-const productId =
-new URLSearchParams(window.location.search).get("id");
+const productId = new URLSearchParams(window.location.search).get("id");
 
-// Load product data
+// Load Product
 db.collection("products")
 .doc(productId)
 .get()
@@ -157,82 +159,115 @@ db.collection("products")
         const product = doc.data();
 
         document.getElementById("productname").value =
-        product.name;
+        product.name || "";
 
         document.getElementById("price").value =
-        product.price;
+        product.price || "";
+
+    }else{
+
+        alert("Product Not Found");
 
     }
-
-});
-
-// Update product
-function updateProduct(){
-
-let productName =
-document.getElementById("productname").value;
-
-let productPrice =
-document.getElementById("price").value;
-
-let imageFile =
-document.getElementById("image").files[0];
-
-// Image change செய்யலனா
-if(!imageFile){
-
-    db.collection("products")
-    .doc(productId)
-    .update({
-        name: productName,
-        price: productPrice
-    })
-
-    .then(() => {
-        alert("Product Updated Successfully");
-        window.location.href="manage-products.html";
-    });
-
-    return;
-}
-
-// Image change செய்தா
-let formData = new FormData();
-
-formData.append("file", imageFile);
-formData.append("upload_preset", "Bestsellingproduct1");
-
-fetch("https://api.cloudinary.com/v1_1/dmfwd0d1x/image/upload",{
-    method:"POST",
-    body:formData
-})
-.then(res => res.json())
-.then(data => {
-
-    console.log(data);
-
-    if(data.error){
-        alert(data.error.message);
-        return;
-    }
-
-    db.collection("products")
-    .doc(productId)
-    .update({
-        name: productName,
-        price: productPrice,
-        image: data.secure_url
-    })
-    .then(() => {
-        alert("Product Updated Successfully");
-        window.location.href = "manage-products.html";
-    });
 
 })
 .catch((error)=>{
     console.log(error);
-    alert(error.message);
 });
+
+// Update Product
+function updateProduct(){
+
+    let productName =
+    document.getElementById("productname").value;
+
+    let productPrice =
+    document.getElementById("price").value;
+
+    let imageFile =
+    document.getElementById("image").files[0];
+
+    // Image change இல்ல
+    if(!imageFile){
+
+        db.collection("products")
+        .doc(productId)
+        .update({
+            name: productName,
+            price: productPrice
+        })
+
+        .then(() => {
+
+            alert("Product Updated Successfully");
+
+            window.location.href =
+            "manage-products.html";
+
+        })
+
+        .catch((error)=>{
+
+            alert(error.message);
+
+        });
+
+        return;
+    }
+
+    // Image change இருக்கு
+    let formData = new FormData();
+
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "Bestsellingproduct1");
+
+    fetch(
+      "https://api.cloudinary.com/v1_1/dmfwd0d1x/image/upload",
+      {
+        method:"POST",
+        body:formData
+      }
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        console.log(data);
+
+        if(data.error){
+            alert(data.error.message);
+            return;
+        }
+
+        db.collection("products")
+        .doc(productId)
+        .update({
+
+            name: productName,
+            price: productPrice,
+            image: data.secure_url
+
+        })
+
+        .then(() => {
+
+            alert("Product Updated Successfully");
+
+            window.location.href =
+            "manage-products.html";
+
+        });
+
+    })
+
+    .catch((error)=>{
+
+        console.log(error);
+
+        alert("Image Upload Failed");
+
+    });
 
 }
 
