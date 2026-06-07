@@ -158,16 +158,44 @@ function addProduct(){
 
 let productName = document.getElementById("productname").value;
 let productPrice = document.getElementById("price").value;
+let imageFile = document.getElementById("image").files[0];
 
-db.collection("products").add({
-  name: productName,
-  price: productPrice
+if(!imageFile){
+    alert("Select Image");
+    return;
+}
+
+let formData = new FormData();
+
+formData.append("file", imageFile);
+formData.append("upload_preset", "Bestsellingproduct1");
+
+fetch("https://api.cloudinary.com/v1_1/dmfwd0d1x/image/upload",{
+    method:"POST",
+    body:formData
 })
-.then(() => {
-  alert("Product Added Successfully");
+.then(res => res.json())
+.then(data => {
+
+    db.collection("products").add({
+        name: productName,
+        price: productPrice,
+        image: data.secure_url
+    })
+
+    .then(() => {
+        alert("Product Added Successfully");
+    })
+
+    .catch((error) => {
+        alert(error.message);
+    });
+
 })
-.catch((error) => {
-  alert(error.message);
+
+.catch((error)=>{
+    alert("Image Upload Failed");
+    console.log(error);
 });
 
 }
