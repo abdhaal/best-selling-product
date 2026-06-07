@@ -206,40 +206,35 @@ fetch("https://api.cloudinary.com/v1_1/dmfwd0d1x/image/upload",{
     method:"POST",
     body:formData
 })
-
 .then(res => res.json())
-
 .then(data => {
+
+    console.log(data);
+
+    if(data.error){
+        alert(data.error.message);
+        return;
+    }
 
     db.collection("products")
     .doc(productId)
     .update({
-
         name: productName,
         price: productPrice,
         image: data.secure_url
-
     })
-
     .then(() => {
-
         alert("Product Updated Successfully");
-
-        window.location.href =
-        "manage-products.html";
-
+        window.location.href = "manage-products.html";
     });
 
 })
-
 .catch((error)=>{
-
-    alert("Image Upload Failed");
     console.log(error);
-
+    alert(error.message);
 });
 
-  }
+}
 
 </script>
 </body>
