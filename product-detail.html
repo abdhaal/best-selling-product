@@ -150,23 +150,8 @@ alert("Added To Cart");
 
 function buyNow(){
 
-let user = localStorage.getItem("user");
+alert(localStorage.getItem("user"));
 
-console.log(user);
-
-if(!user){
-
-alert("Please Login First");
-
-window.location.href="customer-login.html";
-
-return;
 }
-
-window.location.href =
-"buy-now.html?id=" + productId;
-
-  }
-
 </script></body>
 </html>
