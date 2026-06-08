@@ -28,34 +28,94 @@ padding:15px;
 border-radius:10px;
 }
 .cart-card{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:12px;
 display:flex;
 gap:15px;
-background:white;
-padding:15px;
-margin:15px;
-border-radius:12px;
+position:relative;
 box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
 .cart-img{
-width:120px;
-height:120px;
+width:100px;
+height:100px;
 object-fit:cover;
 border-radius:10px;
 }
 
-.cart-card h3{
-margin:0;
+.remove-btn{
+position:absolute;
+right:15px;
+top:15px;
+font-size:24px;
+color:red;
+cursor:pointer;
+font-weight:bold;
+}
+
+.checkout-btn{
+width:95%;
+display:block;
+margin:20px auto;
+padding:18px;
+background:#001f3f;
+color:white;
+border:none;
+border-radius:50px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+.qty-box{
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:10px;
+}
+
+.qty-btn{
+width:35px;
+height:35px;
+border:none;
+background:#001f3f;
+color:white;
+border-radius:50%;
+font-size:20px;
+cursor:pointer;
+}
+
+.summary-box{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
 font-size:18px;
 }
 
-.cart-card button{
-background:red;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:6px;
-margin-top:10px;
+.grand-total{
+font-size:24px;
+font-weight:bold;
+color:#001f3f;
+border-top:1px solid #ddd;
+padding-top:10px;
+}
+.total-box{
+background:white;
+margin:15px;
+padding:15px;
+border-radius:12px;
+font-size:22px;
+font-weight:bold;
+text-align:center;
 }
 .btn{
 width:100%;
@@ -76,9 +136,10 @@ My Cart
 
 <div id="cartItems"></div>
 
-<h2 id="totalPrice"></h2>
+<div id="totalPrice" class="total-box"></div>
 
-<button onclick="checkout()">
+<button class="checkout-btn"
+onclick="checkout()">
 Proceed To Checkout
 </button>
 
@@ -100,14 +161,18 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
 
 let html = "";
 let total = 0;
 
 async function loadCart(){
 
-for(const item of cart){
+html = "";
+total = 0;
+
+for(const [index,item] of cart.entries()){
 
 let doc = await db.collection("products")
 .doc(item.productId)
@@ -120,15 +185,40 @@ let product = doc.data();
 total += Number(product.price) * Number(item.qty);
 
 html += `
-<div class="card">
+<div class="cart-card">
+
+<span class="remove-btn"
+onclick="removeItem(${index})">
+❌
+</span>
+
 <img src="${product.image}"
-style="width:100px;height:100px;object-fit:cover;border-radius:10px;">
+class="cart-img">
+
+<div style="flex:1">
 
 <h3>${product.name}</h3>
 
 <p>₹${product.price}</p>
 
-<p>Quantity : ${item.qty}</p>
+<div class="qty-box">
+
+<button class="qty-btn"
+onclick="changeQty(${index},-1)">
+-
+</button>
+
+<span>${item.qty}</span>
+
+<button class="qty-btn"
+onclick="changeQty(${index},1)">
++
+</button>
+
+</div>
+
+</div>
+
 </div>
 `;
 
@@ -137,15 +227,69 @@ style="width:100px;height:100px;object-fit:cover;border-radius:10px;">
 }
 
 document.getElementById("cartItems").innerHTML = html;
-document.getElementById("totalPrice").innerHTML =
-"Total : ₹" + total;
+
+let delivery = 50;
+let grandTotal = total + delivery;
+
+document.getElementById("totalPrice").innerHTML = `
+<div class="summary-box">
+
+<div class="summary-row">
+<span>Subtotal</span>
+<span>₹${total}</span>
+</div>
+
+<div class="summary-row">
+<span>Delivery</span>
+<span>₹${delivery}</span>
+</div>
+
+<div class="summary-row grand-total">
+<span>Total</span>
+<span>₹${grandTotal}</span>
+</div>
+
+</div>
+`;
 
 }
 
 loadCart();
 
+function changeQty(index,value){
+
+cart[index].qty += value;
+
+if(cart[index].qty < 1){
+cart[index].qty = 1;
+}
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+location.reload();
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+location.reload();
+
+}
+
 function checkout(){
+
 window.location.href="buy-now.html";
+
 }
 
 </script>
