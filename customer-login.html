@@ -233,7 +233,18 @@ let password=document.getElementById("password").value;
 auth.signInWithEmailAndPassword(email,password)
 .then(()=>{
 
-window.location.href="customer-home.html";
+    // Login success
+    localStorage.setItem("isLoggedIn","true");
+
+    // Buy Now button click பண்ணி login page வந்திருந்தா
+    let redirectPage = localStorage.getItem("redirectAfterLogin");
+
+    if(redirectPage){
+        localStorage.removeItem("redirectAfterLogin");
+        window.location.href = redirectPage;
+    }else{
+        window.location.href = "customer-home.html";
+    }
 
 })
 .catch((err)=>{
