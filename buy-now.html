@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buy Now</title>
+<title>Checkout</title>
 
 <style>
 body{
@@ -31,7 +31,7 @@ box-shadow:0 2px 5px rgba(0,0,0,.1);
 
 img{
 width:100%;
-height:220px;
+height:250px;
 object-fit:cover;
 border-radius:10px;
 }
@@ -49,18 +49,36 @@ padding:12px;
 margin-top:10px;
 border:1px solid #ccc;
 border-radius:6px;
+box-sizing:border-box;
 }
 
 .btn{
 width:100%;
 padding:15px;
 border:none;
-background:#ffcc00;
+background:#001f3f;
+color:white;
 font-size:18px;
 font-weight:bold;
 border-radius:30px;
 margin-top:15px;
 cursor:pointer;
+}
+
+.save-btn{
+background:#28a745;
+}
+
+.payment-box{
+margin-top:10px;
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+.cod-text{
+color:red;
+font-weight:bold;
 }
 </style>
 </head>
@@ -85,38 +103,72 @@ Checkout
 
 <h3>Delivery Address</h3>
 
-<input type="text" id="customerName"
+<input
+type="text"
+id="customerName"
 placeholder="Full Name">
 
-<textarea id="address"
-placeholder="Enter Address"></textarea>
+<textarea
+id="address"
+placeholder="Enter Address">
+</textarea>
+
+<button
+class="btn save-btn"
+onclick="saveAddress()">
+Save Address
+</button>
 
 </div>
 
 <div class="card">
 
-<h3>Select Payment Method</h3>
+<h3>Payment Method</h3>
+
+<div class="payment-box">
 
 <label>
-<input type="radio"
+
+<input
+type="radio"
 name="payment"
 value="COD"
-checked>
+disabled>
+
 Cash On Delivery
+
 </label>
 
-<br><br>
+<br>
+
+<span class="cod-text">
+Currently Unavailable
+</span>
+
+</div>
+
+<br>
+
+<div class="payment-box">
 
 <label>
-<input type="radio"
+
+<input
+type="radio"
 name="payment"
-value="UPI">
-UPI
+value="UPI"
+checked>
+
+UPI Payment
+
 </label>
 
 </div>
 
-<button class="btn"
+</div>
+
+<button
+class="btn"
 onclick="placeOrder()">
 Continue
 </button>
@@ -127,12 +179,12 @@ Continue
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
-  authDomain: "best-selling-product-1.firebaseapp.com",
-  projectId: "best-selling-product-1",
-  storageBucket: "best-selling-product-1.appspot.com",
-  messagingSenderId: "211296328412",
-  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+apiKey:"AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+authDomain:"best-selling-product-1.firebaseapp.com",
+projectId:"best-selling-product-1",
+storageBucket:"best-selling-product-1.appspot.com",
+messagingSenderId:"211296328412",
+appId:"1:211296328412:web:e73fa3316dfaa1e9c5b219"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -143,10 +195,18 @@ const productId =
 new URLSearchParams(location.search)
 .get("id");
 
+const user =
+localStorage.getItem("user");
+
+
+// PRODUCT LOAD
+
 db.collection("products")
 .doc(productId)
 .get()
-.then(doc=>{
+.then((doc)=>{
+
+if(doc.exists){
 
 const p = doc.data();
 
@@ -157,9 +217,72 @@ document.getElementById("productName").innerText =
 p.name;
 
 document.getElementById("productPrice").innerText =
-"₹"+p.price;
+"₹" + p.price;
+
+}
 
 });
+
+
+// ADDRESS AUTO LOAD
+
+if(user){
+
+db.collection("addresses")
+.doc(user)
+.get()
+.then((doc)=>{
+
+if(doc.exists){
+
+let data = doc.data();
+
+document.getElementById("customerName").value =
+data.name || "";
+
+document.getElementById("address").value =
+data.address || "";
+
+}
+
+});
+
+}
+
+
+// SAVE ADDRESS
+
+function saveAddress(){
+
+if(!user){
+
+alert("Please Login First");
+return;
+
+}
+
+db.collection("addresses")
+.doc(user)
+.set({
+
+name:
+document.getElementById("customerName").value,
+
+address:
+document.getElementById("address").value
+
+})
+
+.then(()=>{
+
+alert("Address Saved");
+
+});
+
+}
+
+
+// PLACE ORDER
 
 function placeOrder(){
 
@@ -169,12 +292,16 @@ document.getElementById("customerName").value;
 let address =
 document.getElementById("address").value;
 
-let payment =
-document.querySelector(
-'input[name="payment"]:checked'
-).value;
+if(name=="" || address==""){
 
-db.collection("orders").add({
+alert("Enter Address");
+
+return;
+
+}
+
+db.collection("orders")
+.add({
 
 productId:productId,
 
@@ -182,9 +309,11 @@ customer:name,
 
 address:address,
 
-payment:payment,
+payment:"UPI",
 
 status:"Pending",
+
+user:user,
 
 date:new Date()
 
@@ -192,8 +321,9 @@ date:new Date()
 
 .then(()=>{
 
-window.location.href=
-"order-success.html";
+window.location.href =
+"payment-processing.html?id="
++ productId;
 
 });
 
