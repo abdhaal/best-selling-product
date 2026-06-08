@@ -53,15 +53,6 @@ My Cart
 Proceed To Checkout
 </button>
 
-<script>
-
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
-let html = "";
-
-cart.forEach((item,index)=>{
-
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
@@ -80,8 +71,7 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 let html = "";
 let total = 0;
@@ -98,11 +88,10 @@ if(doc.exists){
 
 let product = doc.data();
 
-total += product.price * item.qty;
+total += Number(product.price) * Number(item.qty);
 
 html += `
 <div class="card">
-
 <img src="${product.image}"
 style="width:100px;height:100px;object-fit:cover;border-radius:10px;">
 
@@ -111,7 +100,6 @@ style="width:100px;height:100px;object-fit:cover;border-radius:10px;">
 <p>₹${product.price}</p>
 
 <p>Quantity : ${item.qty}</p>
-
 </div>
 `;
 
@@ -120,7 +108,6 @@ style="width:100px;height:100px;object-fit:cover;border-radius:10px;">
 }
 
 document.getElementById("cartItems").innerHTML = html;
-
 document.getElementById("totalPrice").innerHTML =
 "Total : ₹" + total;
 
@@ -129,9 +116,7 @@ document.getElementById("totalPrice").innerHTML =
 loadCart();
 
 function checkout(){
-
 window.location.href="buy-now.html";
-
 }
 
 </script>
