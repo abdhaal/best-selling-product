@@ -227,36 +227,25 @@ document.getElementById("msg").innerText=err.message;
 // LOGIN
 function login(){
 
-let email =
-document.getElementById("email").value;
-
-let password =
-document.getElementById("password").value;
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
 
 auth.signInWithEmailAndPassword(email,password)
-
 .then((userCredential)=>{
 
-localStorage.setItem(
-"user",
-userCredential.user.email
-);
+localStorage.setItem("user", email);
 
-window.location.href =
-"customer-home.html";
+window.location.href="seller-home.html";
 
 })
-
 .catch((err)=>{
 
 document.getElementById("msg").style.color="red";
-document.getElementById("msg").innerText=
-err.message;
+document.getElementById("msg").innerText=err.message;
 
 });
 
-  }
-
+                                    }
 </script>
 
 </body>
