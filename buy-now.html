@@ -91,11 +91,20 @@ Checkout
 
 <div class="card">
 
+<h3>Order Summary</h3>
+
 <img id="productImage">
 
 <h2 id="productName"></h2>
 
 <div class="price" id="productPrice"></div>
+<p>
+Quantity :
+<span id="productQty">1</span>
+</p>
+<p id="productDescription"></p>
+
+</div>
 
 <div id="savedAddressBox" class="card" style="display:none;">
 
@@ -176,12 +185,12 @@ Continue
 <script>
 
 const firebaseConfig = {
-apiKey:"AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
-authDomain:"best-selling-product-1.firebaseapp.com",
-projectId:"best-selling-product-1",
-storageBucket:"best-selling-product-1.appspot.com",
-messagingSenderId:"211296328412",
-appId:"1:211296328412:web:e73fa3316dfaa1e9c5b219"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -189,11 +198,40 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const productId =
-new URLSearchParams(location.search)
-.get("id");
+new URLSearchParams(location.search).get("id");
 
-const user = localStorage.getItem("user");
+const user =
+localStorage.getItem("user");
 
+let productPrice = 0;
+let productData = {};
+
+// PRODUCT LOAD
+db.collection("products")
+.doc(productId)
+.get()
+.then((doc)=>{
+
+if(doc.exists){
+
+const p = doc.data();
+
+productData = p;
+productPrice = Number(p.price);
+
+document.getElementById("productImage").src =
+p.image;
+
+document.getElementById("productName").innerText =
+p.name;
+
+updateTotal();
+
+}
+
+});
+
+// SAVED ADDRESS LOAD
 if(user){
 
 db.collection("addresses")
@@ -203,22 +241,16 @@ db.collection("addresses")
 
 if(doc.exists){
 
-let data = doc.data();
+const data = doc.data();
 
-document.getElementById("savedAddressBox")
-.style.display="block";
+document.getElementById("customerName").value =
+data.name || "";
 
-document.getElementById("addressForm")
-.style.display="none";
+document.getElementById("mobile").value =
+data.mobile || "";
 
-document.getElementById("savedName")
-.innerHTML="<b>"+data.name+"</b>";
-
-document.getElementById("savedMobile")
-.innerHTML=data.mobile;
-
-document.getElementById("savedAddress")
-.innerHTML=data.address;
+document.getElementById("address").value =
+data.address || "";
 
 }
 
@@ -226,6 +258,25 @@ document.getElementById("savedAddress")
 
 }
 
+// QUANTITY CHANGE
+function updateTotal(){
+
+let qty =
+Number(document.getElementById("qty").value);
+
+if(qty < 1){
+qty = 1;
+document.getElementById("qty").value = 1;
+}
+
+let total = productPrice * qty;
+
+document.getElementById("productPrice").innerHTML =
+"₹" + total;
+
+}
+
+// ADDRESS SAVE
 function saveAddress(){
 
 db.collection("addresses")
@@ -247,33 +298,28 @@ document.getElementById("address").value
 
 alert("Address Saved");
 
-location.reload();
-
 });
 
 }
 
-function showAddressForm(){
-
-document.getElementById("savedAddressBox")
-.style.display="none";
-
-document.getElementById("addressForm")
-.style.display="block";
-
-  }
-
-
 // PLACE ORDER
-
 function placeOrder(){
 
-let addressDoc =
-document.getElementById("savedAddress").innerText;
+let name =
+document.getElementById("customerName").value;
 
-if(addressDoc==""){
+let mobile =
+document.getElementById("mobile").value;
 
-alert("Please Save Address");
+let address =
+document.getElementById("address").value;
+
+let qty =
+Number(document.getElementById("qty").value);
+
+if(name=="" || mobile=="" || address==""){
+
+alert("Please Fill Address");
 
 return;
 
@@ -282,22 +328,33 @@ return;
 db.collection("orders")
 .add({
 
+user:user,
 productId:productId,
 
-customer:
-document.getElementById("savedName").innerText,
+productName:
+productData.name,
 
-mobile:
-document.getElementById("savedMobile").innerText,
+productImage:
+productData.image,
 
-address:
-document.getElementById("savedAddress").innerText,
+price:
+productPrice,
+
+quantity:
+qty,
+
+total:
+productPrice * qty,
+
+customer:name,
+
+mobile:mobile,
+
+address:address,
 
 payment:"UPI",
 
 status:"Pending",
-
-user:user,
 
 date:new Date()
 
@@ -305,12 +362,12 @@ date:new Date()
 
 .then(()=>{
 
-window.location.href=
-"payment-processing.html?id="+productId;
+window.location.href =
+"payment-processing.html?id=" + productId;
 
 });
 
-  }
+}
 
 </script>
 
