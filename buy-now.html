@@ -97,70 +97,67 @@ Checkout
 
 <div class="price" id="productPrice"></div>
 
-</div>
-
-<div class="card">
+<div id="savedAddressBox" class="card" style="display:none;">
 
 <h3>Delivery Address</h3>
 
-<input
-type="text"
+<p id="savedName"></p>
+<p id="savedMobile"></p>
+<p id="savedAddress"></p>
+
+<button class="btn"
+onclick="showAddressForm()">
+Change Address
+</button>
+
+</div>
+
+<div id="addressForm" class="card">
+
+<h3>Add New Address</h3>
+
+<input type="text"
 id="customerName"
 placeholder="Full Name">
 
+<input type="tel"
+id="mobile"
+placeholder="Mobile Number">
+
 <textarea
 id="address"
-placeholder="Enter Address">
+placeholder="Enter Full Address">
 </textarea>
 
-<button
-class="btn save-btn"
+<button class="btn save-btn"
 onclick="saveAddress()">
 Save Address
 </button>
 
 </div>
-
 <div class="card">
 
 <h3>Payment Method</h3>
 
-<div class="payment-box">
-
 <label>
-
 <input
 type="radio"
 name="payment"
-value="COD"
 disabled>
 
 Cash On Delivery
-
+(Currently Unavailable)
 </label>
 
-<br>
-
-<span class="cod-text">
-Currently Unavailable
-</span>
-
-</div>
-
-<br>
-
-<div class="payment-box">
+<br><br>
 
 <label>
-
 <input
 type="radio"
 name="payment"
-value="UPI"
 checked>
 
 UPI Payment
-
 </label>
 
 </div>
@@ -195,36 +192,7 @@ const productId =
 new URLSearchParams(location.search)
 .get("id");
 
-const user =
-localStorage.getItem("user");
-
-
-// PRODUCT LOAD
-
-db.collection("products")
-.doc(productId)
-.get()
-.then((doc)=>{
-
-if(doc.exists){
-
-const p = doc.data();
-
-document.getElementById("productImage").src =
-p.image;
-
-document.getElementById("productName").innerText =
-p.name;
-
-document.getElementById("productPrice").innerText =
-"₹" + p.price;
-
-}
-
-});
-
-
-// ADDRESS AUTO LOAD
+const user = localStorage.getItem("user");
 
 if(user){
 
@@ -237,11 +205,20 @@ if(doc.exists){
 
 let data = doc.data();
 
-document.getElementById("customerName").value =
-data.name || "";
+document.getElementById("savedAddressBox")
+.style.display="block";
 
-document.getElementById("address").value =
-data.address || "";
+document.getElementById("addressForm")
+.style.display="none";
+
+document.getElementById("savedName")
+.innerHTML="<b>"+data.name+"</b>";
+
+document.getElementById("savedMobile")
+.innerHTML=data.mobile;
+
+document.getElementById("savedAddress")
+.innerHTML=data.address;
 
 }
 
@@ -249,17 +226,7 @@ data.address || "";
 
 }
 
-
-// SAVE ADDRESS
-
 function saveAddress(){
-
-if(!user){
-
-alert("Please Login First");
-return;
-
-}
 
 db.collection("addresses")
 .doc(user)
@@ -267,6 +234,9 @@ db.collection("addresses")
 
 name:
 document.getElementById("customerName").value,
+
+mobile:
+document.getElementById("mobile").value,
 
 address:
 document.getElementById("address").value
@@ -277,24 +247,33 @@ document.getElementById("address").value
 
 alert("Address Saved");
 
+location.reload();
+
 });
 
 }
+
+function showAddressForm(){
+
+document.getElementById("savedAddressBox")
+.style.display="none";
+
+document.getElementById("addressForm")
+.style.display="block";
+
+  }
 
 
 // PLACE ORDER
 
 function placeOrder(){
 
-let name =
-document.getElementById("customerName").value;
+let addressDoc =
+document.getElementById("savedAddress").innerText;
 
-let address =
-document.getElementById("address").value;
+if(addressDoc==""){
 
-if(name=="" || address==""){
-
-alert("Enter Address");
+alert("Please Save Address");
 
 return;
 
@@ -305,9 +284,14 @@ db.collection("orders")
 
 productId:productId,
 
-customer:name,
+customer:
+document.getElementById("savedName").innerText,
 
-address:address,
+mobile:
+document.getElementById("savedMobile").innerText,
+
+address:
+document.getElementById("savedAddress").innerText,
 
 payment:"UPI",
 
@@ -321,13 +305,12 @@ date:new Date()
 
 .then(()=>{
 
-window.location.href =
-"payment-processing.html?id="
-+ productId;
+window.location.href=
+"payment-processing.html?id="+productId;
 
 });
 
-}
+  }
 
 </script>
 
