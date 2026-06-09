@@ -137,32 +137,6 @@ product.description || "No description available";
 });
 
 // Add To Cart
-function addToCart(){
-
-let user = localStorage.getItem("user");
-
-if(!user){
-
-alert("Please Login First");
-window.location.href="customer-login.html";
-return;
-
-}
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-cart.push({
-productId: productId,
-qty: document.getElementById("qty").value
-});
-
-localStorage.setItem("cart", JSON.stringify(cart));
-
-alert("Added To Cart");
-
-}
-
-// Buy Now
 function buyNow(){
 
 let user = localStorage.getItem("user");
@@ -178,9 +152,15 @@ return;
 
 }
 
+let qty =
+document.getElementById("qty").value;
+
 // Login irundha checkout page open aagum
 window.location.href =
-"buy-now.html?id=" + productId;
+"buy-now.html?id=" +
+productId +
+"&qty=" +
+qty;
 
 }
 
