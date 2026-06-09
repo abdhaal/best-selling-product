@@ -163,24 +163,18 @@ style="margin-top:10px;">
 <div class="summary">
 
 <div class="summary-row">
-<span>Subtotal</span>
-<span id="subtotal">
-₹0
-</span>
+<span>Items Total</span>
+<span id="subtotal">₹0</span>
 </div>
 
 <div class="summary-row">
-<span>Delivery</span>
-<span>
-₹50
-</span>
+<span>Free Delivery</span>
+<span style="color:green;">-₹40</span>
 </div>
 
 <div class="summary-row total">
-<span>Total</span>
-<span id="grandTotal">
-₹0
-</span>
+<span>Order Total</span>
+<span id="grandTotal">₹0</span>
 </div>
 
 </div>
@@ -332,8 +326,10 @@ const p = doc.data();
 const subtotal =
 Number(p.price) * qty;
 
+const discount = 40;
+
 const grandTotal =
-subtotal + 50;
+subtotal - discount;
 
 document.getElementById("productImage").src =
 p.image || "";
