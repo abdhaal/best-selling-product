@@ -185,7 +185,7 @@ Continue
 <script>
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
   authDomain: "best-selling-product-1.firebaseapp.com",
   projectId: "best-selling-product-1",
   storageBucket: "best-selling-product-1.appspot.com",
@@ -200,13 +200,15 @@ const db = firebase.firestore();
 const productId =
 new URLSearchParams(location.search).get("id");
 
+const qty =
+Number(
+new URLSearchParams(location.search).get("qty")
+) || 1;
+
 const user =
 localStorage.getItem("user");
 
-let productPrice = 0;
-let productData = {};
-
-// PRODUCT LOAD
+// Load Product
 db.collection("products")
 .doc(productId)
 .get()
@@ -214,10 +216,7 @@ db.collection("products")
 
 if(doc.exists){
 
-const p = doc.data();
-
-productData = p;
-productPrice = Number(p.price);
+let p = doc.data();
 
 document.getElementById("productImage").src =
 p.image;
@@ -225,13 +224,20 @@ p.image;
 document.getElementById("productName").innerText =
 p.name;
 
-updateTotal();
+document.getElementById("productPrice").innerHTML =
+`
+₹${p.price}
+<br><br>
+Quantity : ${qty}
+<br><br>
+<b>Total : ₹${Number(p.price) * qty}</b>
+`;
 
 }
 
 });
 
-// SAVED ADDRESS LOAD
+// Load Saved Address
 if(user){
 
 db.collection("addresses")
@@ -241,16 +247,22 @@ db.collection("addresses")
 
 if(doc.exists){
 
-const data = doc.data();
+let data = doc.data();
 
-document.getElementById("customerName").value =
-data.name || "";
+document.getElementById("savedAddressBox")
+.style.display = "block";
 
-document.getElementById("mobile").value =
-data.mobile || "";
+document.getElementById("addressForm")
+.style.display = "none";
 
-document.getElementById("address").value =
-data.address || "";
+document.getElementById("savedName")
+.innerHTML = "<b>"+data.name+"</b>";
+
+document.getElementById("savedMobile")
+.innerHTML = data.mobile;
+
+document.getElementById("savedAddress")
+.innerHTML = data.address;
 
 }
 
@@ -258,25 +270,7 @@ data.address || "";
 
 }
 
-// QUANTITY CHANGE
-function updateTotal(){
-
-let qty =
-Number(document.getElementById("qty").value);
-
-if(qty < 1){
-qty = 1;
-document.getElementById("qty").value = 1;
-}
-
-let total = productPrice * qty;
-
-document.getElementById("productPrice").innerHTML =
-"₹" + total;
-
-}
-
-// ADDRESS SAVE
+// Save Address
 function saveAddress(){
 
 db.collection("addresses")
@@ -298,28 +292,34 @@ document.getElementById("address").value
 
 alert("Address Saved");
 
+location.reload();
+
 });
 
 }
 
-// PLACE ORDER
+// Edit Address
+function showAddressForm(){
+
+document.getElementById("savedAddressBox")
+.style.display = "none";
+
+document.getElementById("addressForm")
+.style.display = "block";
+
+}
+
+// Place Order
 function placeOrder(){
 
-let name =
-document.getElementById("customerName").value;
+let payment =
+document.querySelector(
+'input[name="payment"]:checked'
+).value;
 
-let mobile =
-document.getElementById("mobile").value;
+if(payment === "COD"){
 
-let address =
-document.getElementById("address").value;
-
-let qty =
-Number(document.getElementById("qty").value);
-
-if(name=="" || mobile=="" || address==""){
-
-alert("Please Fill Address");
+alert("Cash On Delivery Currently Unavailable");
 
 return;
 
@@ -328,48 +328,40 @@ return;
 db.collection("orders")
 .add({
 
-user:user,
-productId:productId,
+productId: productId,
 
-productName:
-productData.name,
+quantity: qty,
 
-productImage:
-productData.image,
+customer:
+document.getElementById("savedName").innerText,
 
-price:
-productPrice,
+mobile:
+document.getElementById("savedMobile").innerText,
 
-quantity:
-qty,
+address:
+document.getElementById("savedAddress").innerText,
 
-total:
-productPrice * qty,
+payment: payment,
 
-customer:name,
+status: "Pending",
 
-mobile:mobile,
+user: user,
 
-address:address,
-
-payment:"UPI",
-
-status:"Pending",
-
-date:new Date()
+date: new Date()
 
 })
 
 .then(()=>{
 
 window.location.href =
-"payment-processing.html?id=" + productId;
+"payment-processing.html?id=" +
+productId +
+"&qty=" +
+qty;
 
 });
 
 }
-
-</script>
-
+<script>
 </body>
 </html>
