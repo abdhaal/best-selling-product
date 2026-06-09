@@ -6,8 +6,9 @@
 <title>Checkout</title>
 
 <style>
+
 body{
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#f5f5f5;
 margin:0;
 }
@@ -19,6 +20,8 @@ padding:15px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
+position:sticky;
+top:0;
 }
 
 .card{
@@ -29,11 +32,17 @@ border-radius:10px;
 box-shadow:0 2px 5px rgba(0,0,0,.1);
 }
 
-img{
+.product-img{
 width:100%;
 height:250px;
 object-fit:cover;
 border-radius:10px;
+}
+
+.product-name{
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .price{
@@ -43,7 +52,32 @@ color:#001f3f;
 margin-top:10px;
 }
 
-input,textarea{
+.qty-box{
+margin-top:10px;
+font-size:18px;
+}
+
+.summary{
+background:#f8f8f8;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin:8px 0;
+}
+
+.total{
+font-size:20px;
+font-weight:bold;
+color:#001f3f;
+}
+
+input,
+textarea{
 width:100%;
 padding:12px;
 margin-top:10px;
@@ -54,32 +88,39 @@ box-sizing:border-box;
 
 .btn{
 width:100%;
-padding:15px;
+padding:14px;
 border:none;
-background:#001f3f;
-color:white;
+border-radius:30px;
 font-size:18px;
 font-weight:bold;
-border-radius:30px;
-margin-top:15px;
 cursor:pointer;
+margin-top:10px;
 }
 
 .save-btn{
 background:#28a745;
+color:white;
 }
 
-.payment-box{
-margin-top:10px;
-padding:10px;
-border:1px solid #ddd;
-border-radius:8px;
+.edit-btn{
+background:#ff9800;
+color:white;
 }
 
-.cod-text{
+.continue-btn{
+background:#001f3f;
+color:white;
+}
+
+.saved-address{
+line-height:1.8;
+}
+
+.cod{
 color:red;
 font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -89,47 +130,111 @@ font-weight:bold;
 Checkout
 </div>
 
+<!-- PRODUCT -->
+
 <div class="card">
 
-<h3>Order Summary</h3>
+<img
+id="productImage"
+class="product-img">
 
-<img id="productImage">
+<h2
+id="productName"
+class="product-name">
+</h2>
 
-<h2 id="productName"></h2>
+<div
+id="productPrice"
+class="price">
+</div>
 
-<div class="price" id="productPrice"></div>
-<p>
+<div class="qty-box">
+
 Quantity :
-<span id="productQty">1</span>
-</p>
-<p id="productDescription"></p>
+<b id="productQty">1</b>
 
 </div>
 
-<div id="savedAddressBox" class="card" style="display:none;">
+<div
+id="productDescription"
+style="margin-top:10px;">
+</div>
 
-<h3>Delivery Address</h3>
+<div class="summary">
+
+<div class="summary-row">
+<span>Subtotal</span>
+<span id="subtotal">
+₹0
+</span>
+</div>
+
+<div class="summary-row">
+<span>Delivery</span>
+<span>
+₹50
+</span>
+</div>
+
+<div class="summary-row total">
+<span>Total</span>
+<span id="grandTotal">
+₹0
+</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- SAVED ADDRESS -->
+
+<div
+id="savedAddressBox"
+class="card"
+style="display:none;">
+
+<h3>
+Delivery Address
+</h3>
+
+<div class="saved-address">
 
 <p id="savedName"></p>
+
 <p id="savedMobile"></p>
+
 <p id="savedAddress"></p>
 
-<button class="btn"
+</div>
+
+<button
+class="btn edit-btn"
 onclick="showAddressForm()">
+
 Change Address
+
 </button>
 
 </div>
 
-<div id="addressForm" class="card">
+<!-- ADDRESS FORM -->
 
-<h3>Add New Address</h3>
+<div
+id="addressForm"
+class="card">
 
-<input type="text"
+<h3>
+Add Delivery Address
+</h3>
+
+<input
+type="text"
 id="customerName"
 placeholder="Full Name">
 
-<input type="tel"
+<input
+type="tel"
 id="mobile"
 placeholder="Mobile Number">
 
@@ -138,45 +243,48 @@ id="address"
 placeholder="Enter Full Address">
 </textarea>
 
-<button class="btn save-btn"
+<button
+class="btn save-btn"
 onclick="saveAddress()">
+
 Save Address
+
 </button>
 
 </div>
+<!-- PAYMENT -->
+
 <div class="card">
 
-<h3>Payment Method</h3>
+<h3>
+Payment Method
+</h3>
 
-<label>
-<input
-type="radio"
-name="payment"
-disabled>
-
+<p class="cod">
 Cash On Delivery
 (Currently Unavailable)
-</label>
-
-<br><br>
+</p>
 
 <label>
+
 <input
 type="radio"
 name="payment"
+value="UPI"
 checked>
 
 UPI Payment
-</label>
 
-</div>
+</label>
 
 </div>
 
 <button
-class="btn"
+class="btn continue-btn"
 onclick="placeOrder()">
-Continue
+
+Continue To Payment
+
 </button>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -185,12 +293,12 @@ Continue
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
-  authDomain: "best-selling-product-1.firebaseapp.com",
-  projectId: "best-selling-product-1",
-  storageBucket: "best-selling-product-1.appspot.com",
-  messagingSenderId: "211296328412",
-  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+apiKey:"AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+authDomain:"best-selling-product-1.firebaseapp.com",
+projectId:"best-selling-product-1",
+storageBucket:"best-selling-product-1.appspot.com",
+messagingSenderId:"211296328412",
+appId:"1:211296328412:web:e73fa3316dfaa1e9c5b219"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -198,17 +306,20 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 const productId =
-new URLSearchParams(location.search).get("id");
+new URLSearchParams(location.search)
+.get("id");
 
 const qty =
 Number(
-new URLSearchParams(location.search).get("qty")
+new URLSearchParams(location.search)
+.get("qty")
 ) || 1;
 
 const user =
 localStorage.getItem("user");
 
-// Load Product
+// PRODUCT LOAD
+
 db.collection("products")
 .doc(productId)
 .get()
@@ -216,28 +327,41 @@ db.collection("products")
 
 if(doc.exists){
 
-let p = doc.data();
+const p = doc.data();
+
+const subtotal =
+Number(p.price) * qty;
+
+const grandTotal =
+subtotal + 50;
 
 document.getElementById("productImage").src =
-p.image;
+p.image || "";
 
 document.getElementById("productName").innerText =
-p.name;
+p.name || "";
 
-document.getElementById("productPrice").innerHTML =
-`
-₹${p.price}
-<br><br>
-Quantity : ${qty}
-<br><br>
-<b>Total : ₹${Number(p.price) * qty}</b>
-`;
+document.getElementById("productPrice").innerText =
+"₹" + p.price;
+
+document.getElementById("productQty").innerText =
+qty;
+
+document.getElementById("productDescription").innerText =
+p.description || "";
+
+document.getElementById("subtotal").innerText =
+"₹" + subtotal;
+
+document.getElementById("grandTotal").innerText =
+"₹" + grandTotal;
 
 }
 
 });
 
-// Load Saved Address
+// LOAD SAVED ADDRESS
+
 if(user){
 
 db.collection("addresses")
@@ -247,7 +371,7 @@ db.collection("addresses")
 
 if(doc.exists){
 
-let data = doc.data();
+const data = doc.data();
 
 document.getElementById("savedAddressBox")
 .style.display = "block";
@@ -256,13 +380,16 @@ document.getElementById("addressForm")
 .style.display = "none";
 
 document.getElementById("savedName")
-.innerHTML = "<b>"+data.name+"</b>";
+.innerHTML =
+"<b>" + data.name + "</b>";
 
 document.getElementById("savedMobile")
-.innerHTML = data.mobile;
+.innerText =
+data.mobile;
 
 document.getElementById("savedAddress")
-.innerHTML = data.address;
+.innerText =
+data.address;
 
 }
 
@@ -270,7 +397,8 @@ document.getElementById("savedAddress")
 
 }
 
-// Save Address
+// SAVE ADDRESS
+
 function saveAddress(){
 
 db.collection("addresses")
@@ -298,7 +426,8 @@ location.reload();
 
 }
 
-// Edit Address
+// CHANGE ADDRESS
+
 function showAddressForm(){
 
 document.getElementById("savedAddressBox")
@@ -309,17 +438,16 @@ document.getElementById("addressForm")
 
 }
 
-// Place Order
+// PLACE ORDER
+
 function placeOrder(){
 
-let payment =
-document.querySelector(
-'input[name="payment"]:checked'
-).value;
+if(
+document.getElementById("savedAddress")
+.innerText.trim() == ""
+){
 
-if(payment === "COD"){
-
-alert("Cash On Delivery Currently Unavailable");
+alert("Please Save Address");
 
 return;
 
@@ -333,15 +461,18 @@ productId: productId,
 quantity: qty,
 
 customer:
-document.getElementById("savedName").innerText,
+document.getElementById("savedName")
+.innerText,
 
 mobile:
-document.getElementById("savedMobile").innerText,
+document.getElementById("savedMobile")
+.innerText,
 
 address:
-document.getElementById("savedAddress").innerText,
+document.getElementById("savedAddress")
+.innerText,
 
-payment: payment,
+payment: "UPI",
 
 status: "Pending",
 
@@ -362,6 +493,8 @@ qty;
 });
 
 }
-<script>
+
+</script>
+
 </body>
 </html>
