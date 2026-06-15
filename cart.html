@@ -79,7 +79,7 @@ Total:
 ₹<span id="total">0</span>
 </h2>
 
-<button class="checkout-btn">
+<button class="checkout-btn" onclick="goToCheckout()">
 Proceed To Checkout
 </button>
 
@@ -202,7 +202,29 @@ alert(error.message);
 });
 
 }
+});
 
+});
+
+function goToCheckout(){
+
+firebase.auth().onAuthStateChanged((user)=>{
+
+if(!user){
+
+alert("Please Login First");
+
+window.location.href="customer-login.html";
+
+return;
+
+}
+
+window.location.href="checkout.html";
+
+});
+
+}
 </script>
 
 </body>
