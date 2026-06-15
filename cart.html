@@ -69,8 +69,7 @@ Subtotal:
 </p>
 
 <p style="color:red;">
-Delivery Charge:
-₹40
+Delivery Discount: -₹40
 </p>
 
 <hr>
@@ -152,11 +151,19 @@ cartContainer.innerHTML += `
 
 });
 
-document.getElementById("subtotal")
-.innerText = subtotal;
+if(subtotal <= 0){
 
-document.getElementById("total")
-.innerText = subtotal + 40;
+document.getElementById("subtotal").innerText = 0;
+
+document.getElementById("total").innerText = 0;
+
+}else{
+
+document.getElementById("subtotal").innerText = subtotal;
+
+document.getElementById("total").innerText = subtotal - 40;
+
+}
 
 });
 
