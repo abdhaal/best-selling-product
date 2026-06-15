@@ -203,30 +203,18 @@ alert(error.message);
 
 }
 function goToCheckout(){
+  firebase.auth().onAuthStateChanged((user)=>{
+    if(!user){
+      alert("Please Login First");
+      window.location.href="customer-login.html";
+      return;
+    }
 
-firebase.auth().onAuthStateChanged((user)=>{
+    const total = document.getElementById("total").innerText;
 
-if(!user){
-
-alert("Please Login First");
-
-window.location.href="customer-login.html";
-
-return;
-
-}
-
-let qty =
-document.getElementById("qty").value;
-
-window.location.href =
-"buy-now.html?id=" +
-productId +
-"&qty=" +
-qty;
-
-});
-
+    window.location.href =
+      "buy-now.html?total=" + total;
+  });
 }
 </script>
 
