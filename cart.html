@@ -216,7 +216,14 @@ return;
 
 }
 
-window.location.href="checkout.html";
+let qty =
+document.getElementById("qty").value;
+
+window.location.href =
+"buy-now.html?id=" +
+productId +
+"&qty=" +
+qty;
 
 });
 
