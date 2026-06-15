@@ -145,6 +145,19 @@ cartContainer.innerHTML += `
 
 <p>₹${product.price}</p>
 
+<button
+onclick="removeCartItem('${doc.id}')"
+style="
+background:red;
+color:white;
+border:none;
+padding:10px;
+border-radius:6px;
+cursor:pointer;
+margin-top:10px;">
+❌ Remove
+</button>
+
 </div>
 
 `;
@@ -164,7 +177,27 @@ document.getElementById("subtotal").innerText = subtotal;
 document.getElementById("total").innerText = subtotal - 40;
 
 }
+function removeCartItem(cartId){
 
+db.collection("cart")
+.doc(cartId)
+.delete()
+
+.then(()=>{
+
+alert("Product Removed Successfully");
+
+location.reload();
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+  }
 });
 
 });
