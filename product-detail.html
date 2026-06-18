@@ -82,7 +82,7 @@ background:#001f3f;
 }
 </style></head><body><div class="header">
 Product Details
-</div><div class="container"><img id="productImage" class="product-image"><h2 id="productName" class="product-name"></h2><div id="productPrice" class="price"></div><p id="productDescription" class="description"></p><label>Quantity</label><br>
+</div><div class="container"><img id="productImage" class="product-image"><h2 id="productName" class="product-name"></h2><div id="productPrice" class="price"></div><p id="productDescription" class="description"></p><label id="qtyLabel">Quantity</label><br>
 <input type="number" id="qty" class="qty" value="1" min="1">
 
 <br><button class="btn cart-btn" onclick="addToCart()">
@@ -142,12 +142,14 @@ affiliateLink = product.affiliateLink || "";
 // Affiliate Product
 if(affiliateLink){
 
+// Hide Add To Cart Button
 document.querySelector(".cart-btn").style.display = "none";
 
-document.querySelector(".buy-btn").innerText =
-"Buy On Amazon";
-
+// Hide Quantity Box
 document.getElementById("qty").style.display = "none";
+
+// Hide Quantity Label
+document.getElementById("qtyLabel").style.display = "none";
 
 }
 
@@ -253,5 +255,5 @@ qty;
 
 }
 
-</script></body>
+  </script></body>
 </html>
