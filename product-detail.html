@@ -76,7 +76,9 @@ margin-right:10px;
 .cart-btn{
 background:#ff9800;
 }
-
+.share-btn{
+background:#25D366;
+}
 .buy-btn{
 background:#001f3f;
 }
@@ -85,10 +87,18 @@ Product Details
 </div><div class="container"><img id="productImage" class="product-image"><h2 id="productName" class="product-name"></h2><div id="productPrice" class="price"></div><p id="productDescription" class="description"></p><label id="qtyLabel">Quantity</label><br>
 <input type="number" id="qty" class="qty" value="1" min="1">
 
-<br><button class="btn cart-btn" onclick="addToCart()">
+<br>
+
+<button class="btn cart-btn" onclick="addToCart()">
 Add To Cart
-</button><button class="btn buy-btn" onclick="buyNow()">
+</button>
+
+<button class="btn buy-btn" onclick="buyNow()">
 Buy Now
+</button>
+
+<button class="btn share-btn" onclick="shareProduct()">
+📤 Share
 </button></div>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -220,6 +230,41 @@ alert(error.message);
 
 function buyNow(){
 
+// Share Product 
+
+function shareProduct(){
+
+const productName =
+document.getElementById("productName").innerText;
+
+const productPrice =
+document.getElementById("productPrice").innerText;
+
+const productUrl =
+window.location.href;
+
+const shareText =
+productName + "\n" +
+productPrice + "\n\n" +
+productUrl;
+
+if(navigator.share){
+
+navigator.share({
+title: productName,
+text: shareText,
+url: productUrl
+});
+
+}else{
+
+navigator.clipboard.writeText(shareText);
+
+alert("Product Link Copied");
+
+}
+
+  }
 // Affiliate Product
 if(affiliateLink){
 
