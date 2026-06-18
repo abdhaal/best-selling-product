@@ -59,7 +59,54 @@ width:80px;
 padding:10px;
 margin-top:15px;
 }
+.glass-back{
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    font-size: 22px;
+    color: #ffffff;
+    text-decoration: none;
+
+    /* Glass effect */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    z-index: 999;
+
+    /* smooth animation */
+    transition: all 0.3s ease;
+    animation: floatGlass 3s ease-in-out infinite;
+}
+
+/* Hover effect */
+.glass-back:hover{
+    transform: scale(1.2) rotate(-10deg);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Click effect */
+.glass-back:active{
+    transform: scale(0.9);
+}
+
+/* Floating animation */
+@keyframes floatGlass{
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
 .btn{
 display:inline-block;
 padding:12px 20px;
@@ -82,7 +129,11 @@ background:#25D366;
 .buy-btn{
 background:#001f3f;
 }
-</style></head><body><div class="header">
+</style></head><body>
+<a href="javascript:history.back()" class="glass-back">
+    ←
+</a>
+<div class="header">
 Product Details
 </div><div class="container"><img id="productImage" class="product-image"><h2 id="productName" class="product-name"></h2><div id="productPrice" class="price"></div><p id="productDescription" class="description"></p><label id="qtyLabel">Quantity</label><br>
 <input type="number" id="qty" class="qty" value="1" min="1">
