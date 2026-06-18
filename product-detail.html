@@ -230,41 +230,6 @@ alert(error.message);
 
 function buyNow(){
 
-// Share Product 
-
-function shareProduct(){
-
-const productName =
-document.getElementById("productName").innerText;
-
-const productPrice =
-document.getElementById("productPrice").innerText;
-
-const productUrl =
-window.location.href;
-
-const shareText =
-productName + "\n" +
-productPrice + "\n\n" +
-productUrl;
-
-if(navigator.share){
-
-navigator.share({
-title: productName,
-text: shareText,
-url: productUrl
-});
-
-}else{
-
-navigator.clipboard.writeText(shareText);
-
-alert("Product Link Copied");
-
-}
-
-  }
 // Affiliate Product
 if(affiliateLink){
 
@@ -300,5 +265,38 @@ qty;
 
 }
 
+  function shareProduct(){
+
+const productName =
+document.getElementById("productName").innerText;
+
+const productPrice =
+document.getElementById("productPrice").innerText;
+
+const productUrl =
+window.location.href;
+
+const shareText =
+productName + "\n" +
+productPrice + "\n\n" +
+productUrl;
+
+if(navigator.share){
+
+navigator.share({
+title: productName,
+text: shareText,
+url: productUrl
+});
+
+}else{
+
+navigator.clipboard.writeText(shareText);
+
+alert("Product Link Copied");
+
+}
+
+}
   </script></body>
 </html>
