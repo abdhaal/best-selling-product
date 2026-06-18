@@ -97,10 +97,10 @@ Add Product
 <h2>Product Details</h2>
 
 <label>Product Name</label>
-<input type="text" placeholder="Enter Product Name">
+<input type="text" id="productname" placeholder="Enter Product Name">
 
 <label>Category</label>
-<select>
+<select id="catagory">
 <option>Electronics</option>
 <option>Mobiles</option>
 <option>Fashion</option>
@@ -110,33 +110,102 @@ Add Product
 </select>
 
 <label>Price</label>
-<input type="number" placeholder="Enter Price">
+<input type="number" id="price" placeholder="Enter Price">
 
 <label>Product Image</label>
-<input type="file">
+<input type="file" id="image"> 
 
 <label>Description</label>
-<textarea placeholder="Enter Product Description"></textarea>
+<textarea id="description" placeholder="Enter Product Description"></textarea>
 
 <!-- Affiliate Link (Admin Only) -->
 <div id="affiliateBox" class="hidden">
     <label>Affiliate Link (Admin Only)</label>
-    <input type="url" placeholder="Enter Affiliate Link">
+    <input type="url" id="affiliatelink" placeholder="Enter Affiliate Link">
 </div>
 
-<button class="submit-btn">
+<button class="submit-btn" onclick="addProduct()">
 Add Product
 </button>
 
 </div>
-
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script>
-// Example role (normally comes from backend login)
-const userRole = "admin"; // change to "user" to hide
 
-if(userRole === "admin"){
-    document.getElementById("affiliateBox").classList.remove("hidden");
+const firebaseConfig = {
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+function addProduct(){
+
+let productName = document.getElementById("productname").value;
+let category = document.getElementById("catagory").value;
+let price = document.getElementById("price").value;
+let description = document.getElementById("description").value;
+let affiliateLink = document.getElementById("affiliatelink").value;
+
+let imageFile = document.getElementById("image").files[0];
+
+if(!imageFile){
+alert("Select Image");
+return;
 }
+
+let formData = new FormData();
+
+formData.append("file", imageFile);
+formData.append("upload_preset", "Bestsellingproduct1");
+
+fetch("https://api.cloudinary.com/v1_1/dmfwd0d1x/image/upload",{
+method:"POST",
+body:formData
+})
+.then(res=>res.json())
+.then(data=>{
+
+db.collection("products").add({
+
+name: productName,
+category: category,
+price: price,
+description: description,
+affiliateLink: affiliateLink,
+image: data.secure_url
+
+})
+
+.then(()=>{
+
+alert("Product Added Successfully");
+
+document.getElementById("productname").value="";
+document.getElementById("price").value="";
+document.getElementById("description").value="";
+document.getElementById("affiliatelink").value="";
+document.getElementById("image").value="";
+
+})
+
+.catch(error=>{
+
+alert(error.message);
+
+});
+
+});
+
+}
+
 </script>
 
 </body>
