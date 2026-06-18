@@ -119,11 +119,10 @@ Add Product
 <textarea id="description" placeholder="Enter Product Description"></textarea>
 
 <!-- Affiliate Link (Admin Only) -->
-<div id="affiliateBox" class="hidden">
+<div id="affiliateBox">
     <label>Affiliate Link (Admin Only)</label>
     <input type="url" id="affiliatelink" placeholder="Enter Affiliate Link">
 </div>
-
 <button class="submit-btn" onclick="addProduct()">
 Add Product
 </button>
@@ -154,6 +153,11 @@ let price = document.getElementById("price").value;
 let description = document.getElementById("description").value;
 let affiliateLink = document.getElementById("affiliatelink").value;
 
+const userRole = "admin";
+
+if(userRole === "admin"){
+    document.getElementById("affiliateBox").classList.remove("hidden");
+}
 let imageFile = document.getElementById("image").files[0];
 
 if(!imageFile){
