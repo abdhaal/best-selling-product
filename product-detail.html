@@ -109,6 +109,8 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+let affiliateLink = "";
+
 const productId =
 new URLSearchParams(window.location.search).get("id");
 
@@ -134,6 +136,20 @@ document.getElementById("productPrice").innerHTML =
 
 document.getElementById("productDescription").innerHTML =
 product.description || "No description available";
+
+affiliateLink = product.affiliateLink || "";
+
+// Affiliate Product
+if(affiliateLink){
+
+document.querySelector(".cart-btn").style.display = "none";
+
+document.querySelector(".buy-btn").innerText =
+"Buy On Amazon";
+
+document.getElementById("qty").style.display = "none";
+
+}
 
 }
 
@@ -202,6 +218,16 @@ alert(error.message);
 
 function buyNow(){
 
+// Affiliate Product
+if(affiliateLink){
+
+window.location.href = affiliateLink;
+
+return;
+
+}
+
+// Normal Product
 firebase.auth().onAuthStateChanged((user)=>{
 
 if(!user){
