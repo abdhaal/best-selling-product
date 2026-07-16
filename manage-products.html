@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Products</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fa;
+}
+
+.header{
+background:#001f3f;
+color:white;
+text-align:center;
+padding:20px;
+font-size:28px;
+font-weight:bold;
+}
+
+.section{
+padding:20px;
+}
+
+.product-card{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.product-card h3{
+color:#001f3f;
+margin-bottom:8px;
+}
+
+.product-card p{
+margin-bottom:10px;
+}
+
+.btn{
+display:inline-block;
+padding:10px 15px;
+border-radius:6px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+margin-right:8px;
+}
+
+.edit-btn{
+background:#001f3f;
+}
+
+.delete-btn{
+background:#c62828;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Manage Products
+</div>
+
+<div class="section" id="productsContainer">
+</div>
+
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCknxcZ-S3XsZK9swp0qRNLGfO1n6JLJKU",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+const container = document.getElementById("productsContainer");
+
+function loadProducts() {
+  container.innerHTML = "";
+
+  db.collection("products").get()
+  .then((snapshot) => {
+
+    snapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      container.innerHTML += `
+        <div class="product-card">
+          <h3>${product.name}</h3>
+          <p>₹${product.price}</p>
+
+          <a href="edit-product.html?id=${doc.id}" class="btn edit-btn">
+            ✏ Edit
+          </a>
+
+          <a href="#" class="btn delete-btn"
+             onclick="deleteProduct('${doc.id}')">
+             🗑 Delete
+          </a>
+        </div>
+      `;
+
+    });
+
+  });
+}
+
+function deleteProduct(id) {
+
+  if(confirm("Delete this product?")) {
+
+    db.collection("products").doc(id).delete()
+    .then(() => {
+      alert("Product Deleted");
+      loadProducts();
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
+
+  }
+}
+
+loadProducts();
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Login</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Georgia, serif;
+}
+
+body{
+background:#f2f4f8;
+}
+
+.header{
+background:#002855;
+color:white;
+text-align:center;
+padding:25px;
+font-size:22px;
+font-weight:bold;
+font-style:italic;
+}
+
+.container{
+max-width:420px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+color:#002855;
+font-size:24px;
+font-style:italic;
+margin-bottom:25px;
+}
+
+input{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:16px;
+background:#002855;
+color:white;
+border:none;
+border-radius:40px;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#003366;
+}
+
+.info{
+margin-top:20px;
+font-size:14px;
+line-height:1.6;
+}
+
+.info a{
+color:#002855;
+font-weight:bold;
+text-decoration:none;
+}
+
+.new-seller{
+margin-top:25px;
+}
+
+.new-seller h3{
+margin-bottom:10px;
+}
+
+.new-seller a{
+color:#002855;
+font-size:18px;
+font-weight:bold;
+text-decoration:none;
+}
+
+#msg{
+margin-top:15px;
+text-align:center;
+font-weight:bold;
+}
+
+.footer{
+background:#002855;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
+}
+
+.footer a{
+color:white;
+text-decoration:none;
+margin:0 8px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+IMA Store
+</div>
+
+<div class="container">
+
+<h2>Seller Login</h2>
+
+<input type="email" id="email" placeholder="Seller Email">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Continue</button>
+
+<div class="info">
+By continuing, you agree to our
+<a href="#">Terms & Conditions</a>
+and
+<a href="#">Privacy Policy</a>.
+</div>
+
+<div class="new-seller">
+<h3>New Seller?</h3>
+<a href="seller-signup.html">Create Seller Account</a>
+</div>
+
+<p id="msg"></p>
+
+</div>
+
+<div class="footer">
+<a href="#">Terms</a> |
+<a href="#">Privacy Policy</a> |
+<a href="#">Contact</a>
+<br><br>
+© 2026 IMA Store
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+function login(){
+
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+
+firebase.auth()
+.signInWithEmailAndPassword(email,password)
+.then(()=>{
+
+window.location.href="seller-home.html";
+
+})
+.catch((error)=>{
+
+document.getElementById("msg").style.color="red";
+document.getElementById("msg").innerText=error.message;
+
+});
+
+}
+</script>
+
+</body>
+</html>

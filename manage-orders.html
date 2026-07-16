@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Orders</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #f2f2f2;
+}
+
+/* Header */
+.header {
+  background: #0a2a43;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Container */
+.container {
+  padding: 15px;
+}
+
+/* Order Card */
+.order-card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.order-card h3 {
+  margin: 0;
+  color: #0a2a43;
+}
+
+.order-card p {
+  margin: 5px 0;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.status {
+  background: green;
+  color: white;
+}
+
+.delete {
+  background: red;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Manage Orders</div>
+
+<div class="container">
+
+  <!-- Order 1 -->
+  <div class="order-card">
+    <h3>Wireless Earbuds</h3>
+    <p>Price: ₹999</p>
+    <p>Customer: Rahim</p>
+    <p>Status: Pending</p>
+
+    <button class="btn status">✔ Mark Delivered</button>
+    <button class="btn delete">🗑 Delete</button>
+  </div>
+
+  <!-- Order 2 -->
+  <div class="order-card">
+    <h3>Smart Watch</h3>
+    <p>Price: ₹1499</p>
+    <p>Customer: Arun</p>
+    <p>Status: Pending</p>
+
+    <button class="btn status">✔ Mark Delivered</button>
+    <button class="btn delete">🗑 Delete</button>
+  </div>
+
+  <!-- Order 3 -->
+  <div class="order-card">
+    <h3>Bluetooth Speaker</h3>
+    <p>Price: ₹799</p>
+    <p>Customer: Sara</p>
+    <p>Status: Delivered</p>
+
+    <button class="btn status">✔ Mark Delivered</button>
+    <button class="btn delete">🗑 Delete</button>
+  </div>
+
+</div>
+
+</body>
+</html>

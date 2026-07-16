@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details</title><style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f7fa;
+}
+
+
+
+.container{
+max-width:1000px;
+margin:20px auto;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.product-image{
+width:100%;
+max-width:400px;
+display:block;
+margin:auto;
+border-radius:10px;
+}
+
+.product-name{
+font-size:28px;
+font-weight:bold;
+margin-top:20px;
+color:#001f3f;
+}
+
+.price{
+font-size:26px;
+font-weight:bold;
+color:#001f3f;
+margin:15px 0;
+}
+
+.description{
+line-height:1.7;
+margin-top:15px;
+}
+
+.qty{
+width:80px;
+padding:10px;
+margin-top:15px;
+}
+body{
+    margin:0;
+    font-family: Arial;
+    padding-top: 60px; /* IMPORTANT */
+}
+
+/* TOP BAR ONLY */
+.top-navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 55px;
+    background: #001f3f;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+
+/* BACK ARROW */
+.back-nav{
+    font-size: 30px;   /* bigger arrow */
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+/* TITLE */
+.nav-title{
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* REMOVE SECOND BAR EFFECT (IMPORTANT) */
+h1{
+    display: none; /* if you used extra Product Details heading */
+}
+.btn{
+display:inline-block;
+padding:12px 20px;
+border:none;
+border-radius:8px;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+margin-right:10px;
+}
+
+.cart-btn{
+background:#ff9800;
+}
+.share-btn{
+background:#25D366;
+}
+.buy-btn{
+background:#001f3f;
+}
+</style></head><body>
+<div class="top-navbar">
+    <button class="back-nav" onclick="goBack()">←</button>
+    <div class="nav-title">Product Details</div>
+</div>
+
+<div class="container"><img id="productImage" class="product-image"><h2 id="productName" class="product-name"></h2><div id="productPrice" class="price"></div><p id="productDescription" class="description"></p><label id="qtyLabel">Quantity</label><br>
+<input type="number" id="qty" class="qty" value="1" min="1">
+
+<br>
+
+<button class="btn cart-btn" onclick="addToCart()">
+Add To Cart
+</button>
+
+<button class="btn buy-btn" onclick="buyNow()">
+Buy Now
+</button>
+
+<button class="btn share-btn" onclick="shareProduct()">
+📤 Share
+</button></div>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCYrVMVx9Niu3pvN3OQ7_8JAKRjarv_s70",
+  authDomain: "best-selling-product-1.firebaseapp.com",
+  projectId: "best-selling-product-1",
+  storageBucket: "best-selling-product-1.appspot.com",
+  messagingSenderId: "211296328412",
+  appId: "1:211296328412:web:e73fa3316dfaa1e9c5b219"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+let affiliateLink = "";
+
+const productId =
+new URLSearchParams(window.location.search).get("id");
+
+// Load Product
+
+db.collection("products")
+.doc(productId)
+.get()
+.then((doc)=>{
+
+if(doc.exists){
+
+const product = doc.data();
+
+document.getElementById("productImage").src =
+product.image || "";
+
+document.getElementById("productName").innerHTML =
+product.name || "";
+
+document.getElementById("productPrice").innerHTML =
+"₹" + product.price;
+
+document.getElementById("productDescription").innerHTML =
+product.description || "No description available";
+
+affiliateLink = product.affiliateLink || "";
+
+// Affiliate Product
+if(affiliateLink){
+
+// Hide Add To Cart Button
+document.querySelector(".cart-btn").style.display = "none";
+
+// Hide Quantity Box
+document.getElementById("qty").style.display = "none";
+
+// Hide Quantity Label
+document.getElementById("qtyLabel").style.display = "none";
+
+}
+
+}
+
+});
+
+// Add To Cart
+
+function addToCart(){
+
+firebase.auth().onAuthStateChanged((user)=>{
+
+if(!user){
+
+alert("Please Login First");
+
+window.location.href="customer-login.html";
+
+return;
+
+}
+
+db.collection("products")
+.doc(productId)
+.get()
+.then((doc)=>{
+
+if(doc.exists){
+
+const product = doc.data();
+
+db.collection("cart")
+.add({
+
+userId:user.uid,
+productId:productId,
+name:product.name,
+price:product.price,
+image:product.image,
+qty:document.getElementById("qty").value
+
+})
+
+.then(()=>{
+
+alert("Product Added To Cart");
+
+window.location.href="cart.html";
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+});
+
+});
+
+}
+
+// Buy Now
+
+function buyNow(){
+
+// Affiliate Product
+if(affiliateLink){
+
+window.location.href = affiliateLink;
+
+return;
+
+}
+
+// Normal Product
+firebase.auth().onAuthStateChanged((user)=>{
+
+if(!user){
+
+alert("Please Login First");
+
+window.location.href="customer-login.html";
+
+return;
+
+}
+
+let qty =
+document.getElementById("qty").value;
+
+window.location.href =
+"buy-now.html?id=" +
+productId +
+"&qty=" +
+qty;
+
+});
+
+}
+
+  function shareProduct(){
+
+const productName =
+document.getElementById("productName").innerText;
+
+const productPrice =
+document.getElementById("productPrice").innerText;
+
+const productUrl =
+window.location.href;
+
+const shareText =
+productName + "\n" +
+productPrice + "\n\n" +
+productUrl;
+
+if(navigator.share){
+
+navigator.share({
+title: productName,
+text: shareText,
+url: productUrl
+});
+
+}else{
+
+navigator.clipboard.writeText(shareText);
+
+alert("Product Link Copied");
+
+}
+
+}
+
+function goBack(){
+    if(document.referrer !== ""){
+        history.back();
+    } else {
+        window.location.href = "javascript:history.back()";
+    }
+}
+</script>
+</body>
+</html>

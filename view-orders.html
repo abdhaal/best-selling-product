@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Orders</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#eef2f7;
+}
+
+.header{
+background:#001f3f;
+color:white;
+padding:18px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.page-title{
+text-align:center;
+margin-top:20px;
+font-size:22px;
+color:#001f3f;
+font-weight:bold;
+}
+
+.container{
+max-width:1000px;
+margin:20px auto;
+padding:20px;
+background:white;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+overflow-x:auto;
+}
+
+/* Table styling */
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px;
+}
+
+th, td{
+padding:14px;
+text-align:center;
+border-bottom:1px solid #ddd;
+}
+
+th{
+background:#001f3f;
+color:white;
+text-transform:uppercase;
+font-size:13px;
+letter-spacing:1px;
+}
+
+tr:hover{
+background:#f5f7fa;
+}
+
+/* Status styles */
+.status{
+padding:6px 12px;
+border-radius:20px;
+color:white;
+font-size:12px;
+font-weight:bold;
+display:inline-block;
+}
+
+.pending{background:#ff9800;}
+.shipped{background:#2196f3;}
+.delivered{background:#4caf50;}
+.cancelled{background:#f44336;}
+</style>
+</head>
+
+<body>
+
+<div class="header">ADMIN DASHBOARD</div>
+
+<div class="page-title">VIEW ORDERS</div>
+
+<div class="container">
+
+<table>
+<thead>
+<tr>
+<th>Order ID</th>
+<th>Customer</th>
+<th>Product</th>
+<th>Price</th>
+<th>Status</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>#1001</td>
+<td>Arun</td>
+<td>Mobile</td>
+<td>₹15,000</td>
+<td><span class="status pending">Pending</span></td>
+<td>05-06-2026</td>
+</tr>
+
+<tr>
+<td>#1002</td>
+<td>Kumar</td>
+<td>Headphones</td>
+<td>₹2,000</td>
+<td><span class="status shipped">Shipped</span></td>
+<td>04-06-2026</td>
+</tr>
+
+<tr>
+<td>#1003</td>
+<td>Priya</td>
+<td>Laptop</td>
+<td>₹55,000</td>
+<td><span class="status delivered">Delivered</span></td>
+<td>03-06-2026</td>
+</tr>
+
+<tr>
+<td>#1004</td>
+<td>Vijay</td>
+<td>Mouse</td>
+<td>₹1,500</td>
+<td><span class="status cancelled">Cancelled</span></td>
+<td>02-06-2026</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+
+</body>
+</html>

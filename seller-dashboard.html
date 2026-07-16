@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Dashboard</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f7fa;
+}
+
+.header{
+background:#001f3f;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.section{
+padding:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.card h3{
+color:#001f3f;
+margin-bottom:10px;
+}
+
+.card p{
+font-size:24px;
+font-weight:bold;
+}
+
+.action-btn{
+display:block;
+background:#001f3f;
+color:white;
+text-decoration:none;
+padding:15px;
+border-radius:8px;
+margin-top:12px;
+text-align:center;
+font-weight:bold;
+}
+
+.logout{
+background:#b00020;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Seller Dashboard
+</div>
+
+<div class="section">
+
+<div class="grid">
+
+<div class="card">
+<h3>Total Products</h3>
+<p>12</p>
+</div>
+
+<div class="card">
+<h3>Total Orders</h3>
+<p>45</p>
+</div>
+
+<div class="card">
+<h3>Earnings</h3>
+<p>₹15,000</p>
+</div>
+
+<div class="card">
+<h3>Customers</h3>
+<p>120</p>
+</div>
+
+</div>
+
+<a href="add-product.html" class="action-btn">
+➕ Add Product
+</a>
+
+<a href="manage-products.html" class="action-btn">
+📦 Manage Products
+</a>
+
+<a href="view-orders.html" class="action-btn">
+🛒 View Orders
+</a>
+
+<a href="index.html" class="action-btn logout">
+🚪 Logout
+</a>
+
+</div>
+
+</body>
+</html>
